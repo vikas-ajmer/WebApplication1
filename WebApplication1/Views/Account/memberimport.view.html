@@ -1,0 +1,90 @@
+﻿<div id="importuser">
+    <div class="panel panel-default alt">
+        <div class="panel-heading">
+            <h2> {{isremove?'Remove':'Import'}}  Users</h2>
+        </div>
+
+        <div class="panel-body">
+            <form ng-submit="showdata()" class="form-horizontal row-border" name="myForm">
+
+                <div class="form-group" ng-hide="iscorporatemanager == 3">
+                    <label class="col-sm-2 control-label">Corporate</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" ng-model="selectcorporate" name="selectcorporate" ng-change="getcorporatelocationid()" required>
+                            <option value="" selected="selected">Select Corporate</option>
+                            <option ng-repeat="c in corporateName" value="{{c.CorporateInfoID}}">{{c.CorporateInfo_Name}}</option>
+                        </select>
+                        <span style="color:red" ng-show="(validationflag && myForm.selectcorporate.$invalid) || (myForm.selectcorporate.$dirty && myForm.selectcorporate.$invalid)">Corporate is required</span>
+                    </div>
+
+                    <label class="col-sm-2 control-label">Application</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" ng-model="selectapplication" name="selectapplication" id="selectapplication" required>
+                            <option value="">Select Application</option>
+                            <option ng-repeat="sel in ApplicationList" value="{{sel.value}}" ng-select ng-selected="selectedItemvalue == sel.value">{{sel.label}}</option>
+
+                            <!--<option value="1">E2AP</option>
+                            <option value="2" selected="selected">TWC</option>
+                            <option value="">Select Application</option>-->
+                        </select>
+                        <span style="color:red" ng-show="(validationflag && myForm.selectapplication.$invalid) || (myForm.selectapplication.$dirty && myForm.selectapplication.$invalid)">Application is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Select file to import users:</label>
+                    <div class="col-sm-6">
+                        <input type="file" ng-model="file" name="file" base-sixty-four-input required onload="onLoad" accept="text/xlsx, .xlsx">
+                        <!--<input type="file" id="file" name="file" multiple onchange="angular.element(this).scope().getFileDetails(this)" />-->
+                    </div>
+                    <a class="col-sm-4" href="{{appDomain}}app-content/sample.xlsx">Download sample employee sheet.</a>
+                </div>
+
+                <div class="form-group" ng-show="startimport">
+                    <div class="col-md-offset-5 col-sm-5 col-md-3">
+                        <button id="add_eventbutton" type="button" class="btn btn-lg btn-teal custom_btn" ng-click="showdata()">
+                            <span>Start Import </span>
+                        </button>
+
+                        <!--<button id="add_eventbutton" type="button" class="btn btn-lg btn-teal custom_btn" ng-click="uploadFiles()">
+                    <i class="ion-plus-round"></i><span>Start Import </span>
+                </button>-->
+                    </div>
+                </div>
+
+                <div insert-message></div>
+
+              
+
+            </form>
+        </div>
+        <div class="event_add_box">
+            <div class="panel-heading">
+                <h2>Add Button</h2>
+                <div class="panel-ctrls">
+                    <span class="icon">
+                        <i class="fa fa-trash-o"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form action="" class="form-horizontal row-border">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Button Label</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Hyperlink</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div member-import ng-if="isListDisplay"></div>
+</div>
