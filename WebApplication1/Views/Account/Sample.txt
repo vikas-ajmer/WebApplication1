@@ -1,0 +1,157 @@
+ public DataSet GetTagsToFill(string str)
+        {
+            SqlConnection sqlCon = null;
+            try
+            {
+                DataSet dataSet= new DataSet();
+                SqlCommand sqlCommand = new SqlCommand();
+                sqlCon = GlobalConn();
+                sqlCon.Open();
+
+                sqlCommand.Connection = sqlCon;
+
+                SqlCommand cmd = new SqlCommand(
+                "SELECT DiscussionTags_ID, DiscussionTags_Tag from DiscussionTags where DiscussionTags_TagCount > 4 AND DiscussionTags_Tag LIKE '%" + str + "%'", sqlCon);
+
+                //SqlParameter param = new SqlParameter();
+                //param.ParameterName = "@tagName";
+                //param.Value = str;
+
+                //cmd.Parameters.Add(param);
+
+                // get data stream
+                //SqlDataReader reader = cmd.ExecuteReader();
+
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                
+                adapter.SelectCommand = cmd;
+                adapter.Fill(dataSet);
+
+                return dataSet;
+            }
+            catch (Exception Ex)
+            {
+
+                throw new Exception(Ex.Message, Ex);
+
+            }
+            finally
+            {
+                sqlCon.Close();
+            }
+        }
+
+ public DataSet GetDataSet(string uspName, string[] paramArray, object[] valueArray)
+        {
+            SqlConnection con = null;
+            DataSet dataSet;
+            SqlDataAdapter sqlDataAdapter;
+            SqlCommand sqlCommand;
+            int i;
+            dataSet = new DataSet();
+            try
+            {
+                sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = new SqlCommand();
+                con = GlobalConn();
+                con.Open();
+
+                sqlDataAdapter.SelectCommand.Connection = con;
+
+                sqlCommand = sqlDataAdapter.SelectCommand;
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = uspName;
+                i = 0;
+                while ((((!paramArray.Length.Equals(0)) && (!valueArray.Length.Equals(0))) && (paramArray.Length.Equals(valueArray.Length))) && (i < paramArray.Length))
+                {
+                    if (paramArray[i] != null)
+                    {
+                        sqlCommand.Parameters.AddWithValue(paramArray[i], valueArray[i]);
+                    }
+                    i++;
+                }
+                sqlDataAdapter.Fill(dataSet);
+
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.Message, Ex);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet GetDataSetWithOutParam(string spName, bool isTWC=true)
+        {
+            SqlConnection con = null;
+            DataSet dataSet;
+            SqlDataAdapter sqlDataAdapter;
+            SqlCommand sqlCommand;
+            dataSet = new DataSet();
+            try
+            {
+                sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = new SqlCommand();
+                con = GlobalConn();
+                con.Open();
+
+                sqlDataAdapter.SelectCommand.Connection = con;
+
+                sqlCommand = sqlDataAdapter.SelectCommand;
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = spName;
+                sqlDataAdapter.Fill(dataSet);
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.Message, Ex);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dataSet;
+        }
+
+
+        public DataSet GetWorkshopDataForView(int workshop_id)
+        {
+            SqlConnection con = null;
+            DataSet dataSet;
+            SqlDataAdapter sqlDataAdapter;
+            SqlCommand sqlCommand;
+            int i;
+            dataSet = new DataSet();
+            try
+            {
+                sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = new SqlCommand();
+                con = GlobalConn();
+                con.Open();
+
+                sqlDataAdapter.SelectCommand.Connection = con;
+
+                sqlCommand = sqlDataAdapter.SelectCommand;
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "GetWorkshopDataForView";
+                i = 0;
+
+                sqlCommand.Parameters.AddWithValue("WorkShopID", workshop_id);
+                    
+                sqlDataAdapter.Fill(dataSet);
+
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.Message, Ex);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return dataSet;
+        }
