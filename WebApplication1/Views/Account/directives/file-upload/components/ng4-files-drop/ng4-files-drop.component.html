@@ -1,0 +1,12 @@
+<!--<ng-content></ng-content>-->
+<div class="file-preview">
+    <!--<div class="close fileinput-remove">x</div>-->
+    <div class=" file-drop-zone" [ngClass]="{'file-highlighted':IsDragEnter}">
+        <div class="file-drop-zone-title" *ngIf="!UploadImg.length">Drag &amp; drop files here ...<span>(supported formats {{acceptExtensions}})</span></div>
+        <div class="file-preview-thumbnails">
+            <div *ngFor="let upitem of UploadImg">
+                <img [src]="'data:image/jpg;base64,'+upitem" />
+            </div>
+        </div>
+    </div>
+</div>
