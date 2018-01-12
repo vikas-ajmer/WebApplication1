@@ -1,0 +1,84 @@
+﻿<header id="topnav" class="navbar navbar-default navbar-fixed-top clearfix text-center" role="banner">
+    <img class="img-dark text-center" src="../../assets/logo-icon.TWC.svg" alt="">
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
+            <div class="panel-heading text-center">
+                <h2>Corporate Admin Login</h2>
+            </div>
+            <div class="panel" style="box-shadow:none">
+                <div class="panel-body">
+                    <div class="loginbox">
+                        <form class="form-horizontal" id="validate-form" name="loginForm" #f="ngForm" novalidate
+                          (ngSubmit)="f.form.valid ? login() :false">
+                            <div class="form-group" [ngClass]="{'has-success': f.submitted && email.valid, 'has-error' : f.submitted && !email.valid}">
+                                <div class="formcombine" style="margin-bottom:10px">
+                                    <label class="control-label">Email ID</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" placeholder="Enter email address" name="email" [(ngModel)]="userLogin.email" #email="ngModel" required  class="form-control">
+                                        <span class="help-block" *ngIf="f.submitted && !email.valid">
+                                            Email is required
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" [ngClass]="{'has-success': f.submitted && password.valid, 'has-error' : f.submitted && !password.valid}">
+                                <div class="formcombine">
+                                    <label class="control-label">Password</label>
+                                    <div class="col-sm-12">
+                                        <input type="password" id="ps1" class="form-control" name="password" placeholder="Enter your password" [(ngModel)]="userLogin.password" #password="ngModel" required >
+                                        <span class="help-block" *ngIf="f.submitted && !password.valid">
+                                            Password is required
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group action">
+                                <div class="col-sm-7">
+                                    <span class="checkbox inline customcheckbox" style="padding-top:0!important">
+                                        <input type="checkbox" class="tectonic" id="remember"  name="rememberMe" [(ngModel)]="userLogin.rememberMe">
+                                        <label for="remember">Remember me</label>
+                                    </span>
+                                </div>
+                                <div class="col-sm-5 text-right">
+                                    <a href="javascript:void(0)" class="text-dark toggle"  (click)="toggleForm()"><i class="fa fa-key"></i>Forgot Password?</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <div class="btn-toolbar">
+                                        <button type="submit" class="btn btn-success loginbtn">Sign In</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <form class="form-horizontal" id="validate-form-c">
+                            <div class="form-group">
+                                <div class="formcombine">
+                                    <label class="control-label">Email ID</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" data-parsley-type="email" placeholder="Enter email address" required class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <div class="btn-toolbar">
+                                        <button class="btn btn-success loginbtn">Send New Password</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group action">
+                                <div class="col-sm-12 text-center">
+                                    <a href="javascript:void(0)" class="toggle" (click)="toggleForm()"><i class="fa fa-arrow-left"></i>Back to login</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

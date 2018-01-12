@@ -1,0 +1,310 @@
+﻿<div class="panel-body">
+    <form class="form-horizontal row-border">
+
+        <div class="form-group sendemailmemebers">
+            <label class="col-sm-2 control-label">Email Template :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <span class="checkbox inline customcheckbox">
+                    <input type="checkbox" class="tectonic" id="sendemail" name="dietitian" [(ngModel)]="IsSendMail">
+                    <label for="sendemail">Select if want to send email to challenge members</label>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group" id="emailsubject" *ngIf="IsSendMail">
+            <label class="col-sm-2 control-label">Email Subject :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="mailsubject" [(ngModel)]="MailSubject" placeholder="Adventure Email Subject">
+                </div>
+                <div class="col-sm-2">
+                    <button style="display: inline-block;vertical-align: middle;margin-top:1px" type="button" class="btn btn-default custombutton blue" (click)="openModal(emailtemplate,'temp')">
+                        <i class="fa fa-pencil"></i> Edit Template
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Team :</label>
+            <div class="col-sm-8 col-sm-offset-1">
+                <span class="radio inline customradio fontweightb">
+                    <input type="radio" class="tectonic" id="existing" name="team" [value]="true" [(ngModel)]="isExistingTeam" [disabled]="isTeamEnrolled && !isExistingTeam" (change)="toggleTeam()">
+                    <label for="existing">Use Existing Team</label>
+                </span>
+                <span class="radio inline customradio fontweightb">
+                    <input type="radio" class="tectonic" id="createnew" name="team" [value]="false" [(ngModel)]="isExistingTeam" [disabled]="isTeamEnrolled && isExistingTeam" (change)="toggleTeam()">
+                    <label for="createnew" class="">Create New Team</label>
+                </span>
+                <button type="button" class="btn btn-default custombutton blue createbutton" *ngIf="!isExistingTeam" (click)="openModal(createteamtemplate,'create')">
+                    <i class="fa fa-user-plus"></i> Create Team
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-2">
+            <div class="content-block usersrow">
+                <div class="table-responsive homepage leaderboard userslist teamllist">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="15%">
+                                    <span class="checkbox inline customcheckbox">
+                                        <input type="checkbox" class="tectonic" id="otherall" value="1" name="other">
+                                        <label for="otherall"></label>
+                                    </span>
+                                    <i class="fa fa-list-ol"></i> S.No.
+                                </th>
+                                <th width="30%" style="text-align:left;"><i class="fa fa-users"></i> Team</th>
+                                <th><i class="fa fa-user-circle-o"></i> Team Members</th>
+                                <th width="35%"><i class="fa fa-cog"></i> Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let team of ChallengeTeamList;index as i;">
+                                <td>
+                                    <span class="checkbox inline customcheckbox">
+                                        <input type="checkbox" class="tectonic" id="other{{i}}" name="other{{i}}" [(ngModel)]="team.TeamIsSelect" [disabled]="team.TeamIsJoined">
+                                        <label for="other{{i}}"></label>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="userimg"><avatar size="40" name={{team.TeamName}} [displayType]="'circle'"></avatar></div>
+                                    <div class="username"><h4>{{team.TeamName}}</h4></div>
+                                </td>
+                                <td>{{team.MembersCount}}</td>
+                                <td class="pull-left">
+                                    <button type="button" class="btn btn-default" (click)="openModal(viewteamtemplate,'view',team.TeamID)"><i class="fa fa-user"></i> View Teams</button>
+                                    <a href="javascript:void(0)" class="btn btn-default danger" *ngIf="team.TeamIsJoined" (click)="RemoveTeamFromChallenge(team.TeamID)"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer" style="background:none">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-3">
+                    <a href="javascript:void(0)" class="btn-success btn btn-lg customb" (click)="SaveAndEnrollTeam()"><i class="fa fa-check"></i> Save & Next</a>
+                    <a [routerLink]="['/challenges']" class="btn-default btn btn-lg customb"><i class="fa fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<ng-template #emailtemplate>
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">&times;</button>
+        <h2 class="modal-title">Email Template</h2>
+    </div>
+    <div class="modal-body" style="padding:10px">
+        <ckeditor name="Template" [(ngModel)]="MailTemplate" [config]="ckconfig">
+        </ckeditor>
+    </div>
+</ng-template>
+<ng-template #viewteamtemplate>
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">&times;</button>
+        <h2 class="modal-title">Team Members</h2>
+    </div>
+    <div class="modal-body" style="padding:10px">
+        <div class="member-box" *ngFor="let member of teamMemberList;index as i;">
+            <span>{{i+1}}</span>
+            <span class="captain" data-toggle="tooltip" data-placement="right" title="Captain" *ngIf="member.isTeamCaptain"><i class="fa fa-user-secret"></i></span>
+            <div class="userimg-avatar">
+                <avatar size="60" name={{member.MemberName}} [displayType]="'circle'"></avatar>
+                <span class="activeuser" [ngClass]="{'pending':member.JoiningStatus=='Pending'}" data-toggle="tooltip" data-placement="bottom" title="{{member.JoiningStatus}}"></span>
+                <span class="userbg"></span>
+            </div>
+            <div class="membertitle">{{member.MemberName}}</div>
+            <div class="memberemail">{{member.MemberEmail}}</div>
+            <div class="memberid">#{{member.MemberEmpID}}</div>
+            <div class="stepsanddate">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{member.MemberTotalSteps}}<span>Total Steps</span>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        {{member.TeamJoinedOn|date}}<span>Joining Date</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+    </div>
+</ng-template>
+<ng-template #createteamtemplate>
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">&times;</button>
+        <h2 class="modal-title">Create Challenge Team</h2>
+    </div>
+    <form class="form-horizontal row-border" name="createTeam" #f="ngForm" novalidate
+          (ngSubmit)="f.form.valid? SaveTeamForChallenge() :false">
+        <div class="modal-body">
+            <div class="addteam-details">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Team Name :</label>
+                        <div class="col-sm-3 col-sm-offset-1">
+                            <input type="text" class="form-control" placeholder="Enter Name" name="teamName" [(ngModel)]="TeamName" #teamName="ngModel" required>
+                            <span class="help-block error" *ngIf="f.submitted &&!teamName.valid">
+                                Team Name is required
+                            </span>
+                        </div>
+                        <label class="col-sm-2 control-label text-left" style="text-align:right">Team  Image :</label>
+                        <div class="col-sm-3 col-sm-offset-0 text-left">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group">
+                                    <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="selectedTeamFileName">
+                                        {{selectedTeamFileName}}
+                                    </div>
+                                    <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="!selectedTeamFileName">
+                                        &nbsp;
+                                    </div>
+                                    <span class="input-group-btn">
+                                        <ng4-files-click [configId]="'image'" (filesSelect)="filesSelect($event)">
+                                            <span class="btn btn-default btn-file">
+                                                <span class="fileinput-new">Select file</span>
+                                            </span>
+                                        </ng4-files-click>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Description :</label>
+                        <div class="col-sm-8 col-sm-offset-1">
+                            <textarea class="form-control autosize" name="teamDesc" [(ngModel)]="TeamDescription" #teamDesc="ngModel" required></textarea>
+                            <span class="help-block error" *ngIf="f.submitted &&!teamDesc.valid">
+                                Team Name is required
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="addmember-row">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Enroll Team :</label>
+                        <div class="col-sm-8 col-sm-offset-1">
+                            <span class="radio inline customradio fontweightb">
+                                <input type="radio" class="tectonic" id="searchmember" name="member" [value]="true" [(ngModel)]="isMemberSearch">
+                                <label for="searchmember">Search Team</label>
+                            </span>
+                            <span class="radio inline customradio fontweightb">
+                                <input type="radio" class="tectonic" id="importmember" name="member" [value]="false" [(ngModel)]="isMemberSearch">
+                                <label for="importmember" class="">Import Teams</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-7  col-sm-offset-1">
+                            <div id="searchmembers" style="text-align:left;clear: both" *ngIf="isMemberSearch">
+                                <label class="col-sm-2 control-label smalllabel" style="text-align: left;">Search Member :</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Enter Email Address" name="memberEmail" [(ngModel)]="MemberEmail">
+                                </div>
+                            </div>
+                            <div id="importmembers" style="text-align:left;clear: both;margin-left:8px;" *ngIf="!isMemberSearch">
+                                <label class="col-sm-2 control-label smalllabel" style="text-align: left;"> Import Member  :</label>
+                                <div class="col-sm-10">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%">
+                                        <div class="input-group">
+                                            <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="selectedFileName">
+                                                {{selectedFileName}}
+                                            </div>
+                                            <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="!selectedFileName">
+                                                &nbsp;
+                                            </div>
+                                            <span class="input-group-btn">
+                                                <ng4-files-click [configId]="'excel'" (filesSelect)="filesImportSelect($event)">
+                                                    <span class="btn btn-default btn-file">
+                                                        <span class="fileinput-new">Select file</span>
+                                                    </span>
+                                                </ng4-files-click>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 text-left">
+                            <button type="button" class="btn btn-default custombutton bluebutton" *ngIf="isMemberSearch" (click)="SearchMemberByEmail()">Update & Enroll</button>
+                            <button type="button" class="btn btn-default custombutton bluebutton" *ngIf="!isMemberSearch" (click)="SearchMemberByExcel()">Update & Enroll</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-9 col-sm-offset-3" *ngIf="newTeamMemberList.length">
+                        <div class="content-block usersrow memberlist" style="margin:0">
+                            <div class="table-responsive homepage leaderboard teamllist">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                            <th width="30%" style="text-align:left;"><i class="fa fa-users"></i> Member Name</th>
+                                            <th><i class="fa fa-envelope"></i> Member Email</th>
+                                            <th><i class="fa fa-user-secret"></i> Captain</th>
+                                            <th><i class="fa fa-cog"></i> Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let member of newTeamMemberList;index as i;">
+                                            <td>{{i+1}}</td>
+                                            <td>
+                                                <div class="userimg"><avatar size="40" name={{member.MemberName}} [displayType]="'circle'"></avatar></div>
+                                                <div class="username"><h4>{{member.MemberName}}</h4></div>
+                                            </td>
+                                            <td>{{member.MemberEmail}}</td>
+                                            <td style="text-align: center;">
+                                                <span class="radio inline customradio fontweightb">
+                                                    <input type="radio" class="tectonic" id="captain{{i}}" name="captain" [value]="member.MemberId" [(ngModel)]="TeamCapId">
+                                                    <label for="captain{{i}}" class="nostyle"></label>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0)" class="btn btn-default danger" (click)="RemoveMemberFromList(i)"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-9 col-sm-offset-3" *ngIf="notAddedMember.length">
+                        <div class="content-block usersrow memberlist" style="margin:0">
+                            <div class="table-responsive homepage leaderboard teamllist">
+                                <div class="table-responsive" style="text-align:center;">
+                                    <h3>Below Members are not added in team</h3>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                            <th><i class="fa fa-envelope"></i> Member Email</th>
+                                            <th><i class="fa fa-user-secret"></i> Reason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let member of notAddedMember;index as i;">
+                                            <td>{{i+1}}</td>
+                                            <td>{{member.MemberEmail}}</td>
+                                            <td>{{member.Reason}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn-success btn btn-lg customb"><i class="fa fa-check"></i> Save Team</button>
+            <a href="javascript:void(0)" class="btn-default btn btn-lg customb" (click)="modalRef.hide()"><i class="fa fa-times"></i> Cancel</a>
+        </div>
+    </form>
+</ng-template>

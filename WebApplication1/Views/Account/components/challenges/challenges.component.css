@@ -1,0 +1,10 @@
+﻿.searchfilterrow {
+display:none;
+}
+.open .searchfilterrow {
+    display: block;
+}
+.dropdown-menu{
+    max-height: 300px;
+    overflow-y: auto;
+}

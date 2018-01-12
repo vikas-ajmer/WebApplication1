@@ -1,0 +1,327 @@
+﻿<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-shopping-cart"></i>
+                <h1><span>Store</span></h1>
+                <p> <a href="#" class="link">Home</a> > Store</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="content-block searchfilterrow" style="margin-bottom:0">
+    <div class="row">
+        <div class="col-md-12"><span style="margin-bottom:15px" class="filtertextd">Search Filter</span></div>
+        <div class="col-md-4">
+            <div class="">
+                <label>Corporate :</label>
+                <div class="btn-group">
+                    <select class="form-control" id="drpCorporate" (change)="chagneCorporate($event)" name="drpCorporate" required>
+                        <option [selected] [value]="0">ALL Corporates</option>
+                        <option *ngFor="let c of corporatesList" [value]="c.CorporateInfoID">{{c.CorporateInfo_Name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="col-md-3 text-right">
+                <label>Date From :</label>
+            </div>
+            <div class="col-md-9">
+                <div class="input-group" style="margin-top:-5px">
+                    <span class="input-group-addon"><i class="ion-calendar"></i></span>
+                    <input type="text" style="margin-top: 0!important"
+                           class="form-control"
+                           #dp="bsDatepicker"
+                           bsDatepicker [(bsValue)]="startDate" (bsValueChange)="startDate" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-3 text-right">
+                <label>Date To :</label>
+            </div>
+            <div class="col-md-9">
+                <div class="input-group" style="margin-top:-5px">
+                    <span class="input-group-addon"><i class="ion-calendar"></i></span>
+                    <!--<input style="margin-top: 0!important" type="text" class="form-control" id="datepicker">-->
+                    <input type="text" style="margin-top: 0!important"
+                           class="form-control"
+                           [minDate]="startDate"
+                           #dp="bsDatepicker"
+                           bsDatepicker [(bsValue)]="endDate" />
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;margin-bottom:15px"></div>
+        <div class="col-md-5">
+            <label>Invoice No :</label>
+            <input style="width: 100%" class="form-control" placeholder="Enter Invoice" type="text" [(ngModel)]="orderlist.InvoiceNo" name="invoiceNo" maxlength="50">
+        </div>
+        <div class="col-md-5">
+            <label>Email ID :</label>
+            <input style="width: 100%" class="form-control" placeholder="Enter Email" type="text" [(ngModel)]="orderlist.MemberEmail" name="invoiceNo" maxlength="50">
+        </div>
+        <div class="col-md-1 text-center">
+            <label>&nbsp;&nbsp;</label><br>
+            <button style="text-align:center;min-width:156px!important;background-color:#0398db;color: #fff;border-color:#0398db" class="btn btn-primary" type="button" (click)="FilterResult()"> <i class="fa fa-search"></i></button>
+        </div>
+    </div>
+</div>
+
+<div class="content-block usersrow">
+    <div class="row">
+        <div class="panel panel-default alt">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs material-nav-tabs storetabs">
+                    <li class="active" title="Success Orders"><a href="#success" data-toggle="tab" (click)="GetType('ORDER','SUCCESS')"><i class="fa fa-check"></i> Success</a></li>
+                    <li title="Failure Orders"><a href="#failure" data-toggle="tab" (click)="GetType('ORDER','FAILURE')"><i class="fa fa-times"></i> Failure</a></li>
+                    <li title="Items in Cart"><a href="#cartitems" data-toggle="tab" (click)="GetType('CART','')"><i class="fa fa-cart-plus"></i> Cart Itmes</a></li>
+                </ul>
+            </div>
+
+            <div class="">
+                <div class="tab-content">
+                    <!--Success Order List-->
+                    <div class="tab-pane active" id="success">
+                        <div class="table-responsive homepage leaderboard userslist">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="8%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                        <th style="text-align: left;"><i class="fa fa-building"></i> Corporate Name</th>
+                                        <th width="20%" style="text-align:left"><i class="fa fa-tasks"></i> Order Number</th>
+                                        <th><i class="fa fa-calendar"></i> Order Date</th>
+                                        <th><i class="fa fa-money"></i> Order Amount</th>
+                                        <th><i class="fa fa-cog"></i> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="totalSuccess>0">
+                                    <tr *ngFor="let order of ordersSuccessList; let i = index;">
+                                        <td>{{((currentPage-1) * 20) + (i+1)}}</td>
+                                        <td style="text-align: left;">{{order.CorporateName}}</td>
+                                        <td style="text-align: left;">{{order.OrderNO}} </td>
+                                        <td>{{order.OrderDate | date: 'dd, MMM-yyyy'}}</td>
+                                        <td>{{order.OrderAmount | number:'.2'}}</td>
+                                        <td><a href="javascript:void(0)" class="btn btn-default" (click)="ShowPopup(vieworderinvoicetemplate,'invoice',order.OrderId)"><i class="fa fa-eye"></i> Invoice </a></td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="totalSuccess==0">
+                                    <tr>
+                                        <td colspan="6">No Record Found!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-right" *ngIf="totalSuccess>0">
+                                <pagination [boundaryLinks]="true" [maxSize]="10" [itemsPerPage]="recoredPerPage" [totalItems]="totalSuccess" [(ngModel)]="currentPage" class="pagination-lg"
+                                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Failure Order List-->
+                    <div class="tab-pane" id="failure">
+                        <div class="table-responsive homepage leaderboard userslist">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="8%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                        <th style="text-align: left;"><i class="fa fa-building"></i> Corporate Name</th>
+                                        <th width="20%" style="text-align:left"><i class="fa fa-tasks"></i> Order Number</th>
+                                        <th><i class="fa fa-calendar"></i> Order Date</th>
+                                        <th><i class="fa fa-money"></i> Order Amount</th>
+                                        <th><i class="fa fa-cog"></i> Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="totalFailure>0">
+                                    <tr *ngFor="let order of ordersFailureList; let row_no = index;">
+                                        <td>{{((currentPage-1) * 20) + (row_no+1)}}</td>
+                                        <td style="text-align: left;">{{order.CorporateName}}</td>
+                                        <td style="text-align: left;">{{order.OrderNO}}</td>
+                                        <td>{{order.OrderDate | date: 'dd, MMM-yyyy'}}</td>
+                                        <td>{{order.OrderAmount | number:'.2'}}</td>
+                                        <td><a href="javascript:void(0)" class="btn btn-default" (click)="ShowPopup(vieworderinvoicetemplate,'invoice',order.OrderId)"><i class="fa fa-eye"></i> Invoice </a></td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="totalFailure==0">
+                                    <tr>
+                                        <td colspan="6">No Record Found!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-right" *ngIf="totalFailure>0">
+                                <pagination [boundaryLinks]="true" [maxSize]="10" [itemsPerPage]="recoredPerPage" [totalItems]="totalFailure" [(ngModel)]="currentPage" class="pagination-lg"
+                                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Cart Items List Block-->
+                    <div class="tab-pane" id="cartitems">
+                        <div class="table-responsive homepage leaderboard userslist">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="8%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                        <th style="text-align: left;"><i class="fa fa-building"></i> Corporate Name</th>
+                                        <th width="20%" style="text-align:left"><i class="fa fa-tasks"></i> Member Email</th>
+                                        <th><i class="fa fa-calendar"></i> Date</th>
+                                        <th><i class="fa fa-money"></i> Quantity</th>
+                                        <th><i class="fa fa-cog"></i> Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="totalCartItems>0">
+                                    <tr *ngFor="let cart of cartItemList; let i=index;">
+                                        <td>{{((currentPage-1) * 20) + (i + 1)}}</td>
+                                        <td style="text-align: left;">{{cart.CorporateName}}</td>
+                                        <td style="text-align: left;">{{cart.MemberEmail}}</td>
+                                        <td>{{cart.CartDate | date:'dd, MMM-yyyy'}}</td>
+                                        <td>{{cart.TotalQuantity}}</td>
+                                        <td><a href="javascript:void(0)" class="btn btn-default" (click)="ShowPopup(veiwcartdetailtemplate,'cartdetail',cart.MemberId)"><i class="fa fa-eye"></i> Details </a></td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="totalCartItems==0">
+                                    <tr>
+                                        <td colspan="6">No Record Found!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-right" *ngIf="totalCartItems>0">
+                                <pagination [boundaryLinks]="true" [maxSize]="10" [itemsPerPage]="recoredPerPage" [totalItems]="totalCartItems" [(ngModel)]="currentPage" class="pagination-lg"
+                                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---View Order Invoice---->
+<ng-template #vieworderinvoicetemplate>
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">&times;</button>
+        <h2 class="modal-title">Your Order</h2>
+    </div>
+    <table border="0" cellspacing="0" cellpadding="0" align="center" width="850" style="background-color:#ffffff;">
+        <tr>
+            <td valign="top" align="left" style="padding:15px 30px;">
+                <table border="0" cellspacing="0" cellpadding="0" align="center" width="100%">
+                    <tr>
+                        <td valign="top" align="left">
+                            <a href="https://www.thewellnesscorner.com/" target="_blank"><img max-width="100%" height="40" src="https://e2ap.com/uploadimages/Corporate/TWC-logo.png" alt="" /></a>
+                        </td>
+                        <td valign="top" align="right">
+                            <p style="font-size:14px; color:#636262; line-height:20px"> Invoice Date: <span style="color:#000000;font-weight:600;">{{invoiceSummayData.O_CreatedOn | date: 'dd/MM/yyyy'}}</span> </p>
+                            <p style="font-size:14px; color:#636262; line-height:20px"> Invoice No.: <span style="color:#000000;font-weight:600;">{{invoiceSummayData.O_Number}} </span></p>
+                            <p style="font-size:14px; color:#636262; line-height:20px"> Status: 
+                                <span *ngIf="invoiceSummayData.O_Status=='SUCCESS'" style="color:green;font-weight:600;">{{invoiceSummayData.O_Status}} </span>
+                                <span *ngIf="invoiceSummayData.O_Status!='SUCCESS'" style="color:red;font-weight:600;">{{invoiceSummayData.O_Status}} </span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" align="center" style="padding:15px 30px;">
+                <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <tr>
+                        <td valign="top" align="left" style="padding-bottom:50px;">
+                            <table align="left" border="0" cellspacing="0" cellpadding="0" width="100%">
+                                <tr>
+                                    <td valign="top" align="left" width="45%">
+                                        <h5 style="margin-top:0; margin-bottom:5px;color:#000; font-size:14px;text-transform:uppercase;color:#000000;">Customer Detail: </h5>
+                                        <p style="font-size:14px; color:#636262; line-height:20px"> {{invoiceSummayData.Member_FirstName + ' ' + invoiceSummayData.Member_LastName}} </p>
+                                        <p style="font-size:14px; color:#636262; line-height:20px"> {{invoiceSummayData.Member_Email}} </p>
+                                    </td>
+                                    <td valign="top" align="right" width="55%">
+                                        <h5 style="margin-top:0; margin-bottom:5px;color:#000; font-size:14px;text-transform:uppercase;color:#000000;">Delivery Address</h5>
+                                        <p style="font-size:14px; color:#636262; line-height:20px">
+                                            {{invoiceSummayData.MemberBilling_Name}}<br />
+                                            {{invoiceSummayData.MemberBilling_Address1}}, {{invoiceSummayData.MemberBilling_Address2}},<br />
+                                            {{invoiceSummayData.MemberBilling_City}}, {{invoiceSummayData.MemberBilling_State}}<br />
+                                            PIN – {{invoiceSummayData.MemberBilling_Pincode}}<br />
+                                            Mobile – {{invoiceSummayData.MemberBilling_PhoneNo}}<br />
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" align="left">
+                            <table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="border-collapse:collapse;">
+                                <thead>
+                                    <tr>
+                                        <th valign="middle" align="left" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;    background: #efefef;">Name</th>
+                                        <th valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;    background: #efefef;">Basic Amt.</th>
+                                        <th valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;    background: #efefef;">Qty</th>
+                                        <th valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;    background: #efefef;">Groce Amt.<span style="font-size:11px;text-transform:lowercase;">(Inc. Tax)</span></th>
+                                        <th valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;    background: #efefef;">Discount</th>
+                                        <th valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;    background: #efefef;">Tax</th>
+                                        <th valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;    background: #efefef;">Net Amt.<span style="font-size:11px;text-transform:lowercase;">(Inc. Tax)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--<tr>
+                                        <td colspan="7" style="border-bottom:1px solid #ccc;"></td>
+                                    </tr>-->
+                                    <tr *ngFor="let inv of invoiceDetailData;">
+                                        <td width="200" valign="middle" align="left" style="color:#000; font-size:13px;color:#000000;padding:10px 5px;">{{inv.OD_ProductName}}</td>
+                                        <td valign="middle" align="right" style="color:#000; font-size:13px;color:#000000;padding:10px 5px;">{{inv.OD_SellingAmount | number:'.2'}}</td>
+                                        <td valign="middle" align="right" width="50" style="color:#000; font-size:13px;color:#000000;padding:10px 5px;">{{inv.OD_Quantity}}</td>
+                                        <td valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;">{{((inv.OD_SellingAmount) * (inv.OD_Quantity) | number:'.2')}}</td>
+                                        <td valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;">{{inv.OD_CouponDiscount}}</td>
+                                        <td valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;">{{inv.OD_TaxAmount | number:'.2'}} ({{inv.OD_TaxPercentage}}%)</td>
+                                        <td valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;">{{((inv.OD_SellingAmount) * (inv.OD_Quantity))-inv.OD_CouponDiscount | number:'.2'}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td valign="middle" colspan="7" style="border-bottom:1px solid #cccccc; padding:0;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="200" valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;font-weight:bold">Total:</td>
+                                        <td valign="middle" align="right" style="color:#000; font-size:13px;color:#000000;padding:10px 5px;font-weight:bold">{{totalBasicAmt | number:'.2'}}</td>
+                                        <td valign="middle" align="right" width="50" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;font-weight:bold">{{totalQuantity}}</td>
+                                        <td valign="middle" align="right" style="color:#000; font-size:13px;color:#000000;padding:10px 5px;font-weight:bold">{{totalGrossAmt | number:'.2'}}</td>
+                                        <td valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;font-weight:bold">{{totalDiscount | number:'.2'}}</td>
+                                        <td valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;font-weight:bold">{{totalTaxAmt | number:'.2'}}</td>
+                                        <td valign="middle" align="right" style="color:#000;font-size:13px;color:#000000;padding:10px 5px;font-weight:bold">{{totalNetAmt | number:'.2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="middle" colspan="7" style="border-bottom:1px solid #ccc; padding:0;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="middle" colspan="7" height="20" style=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="middle" align="right" colspan="5" style="color:#000;font-size:14px;color:#000000;padding:10px 0 0;"><b>Total:</b></td>
+                                        <td valign="middle" align="right" colspan="2" style="color:#000;font-size:16px;color:#000000;padding:10px 5px 0;">&#8377; <b>{{totalNetAmt | number:'.2'}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="middle" align="right" colspan="5" style="color:#000;font-size:14px;color:#000000;padding:10px 0 0;"><b>Wellcash Discount:</b></td>
+                                        <td valign="middle" align="right" colspan="2" style="color:#000;font-size:16px;color:#000000;padding:10px 5px 0;">&#8377; <b>-{{invoiceSummayData.O_WellCashDiscount | number:'.2'}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="middle" align="right" colspan="5" style="color:#000;font-size:14px;color:#000000;padding:10px 0 0;"><b>Grand Total:</b></td>
+                                        <td valign="middle" align="right" colspan="2" style="color:#000;font-size:16px;color:#000000;padding:10px 5px 0;">&#8377; <b>{{(totalNetAmt-invoiceSummayData.O_WellCashDiscount) | number:'.2'}}</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <div class="modal-footer">
+        <a href="javascript:void(0)" class="btn-default btn btn-lg customb" (click)="modalRef.hide()"><i class="fa fa-times"></i> Cancel</a>
+    </div>
+</ng-template>
+
+

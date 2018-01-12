@@ -1,0 +1,59 @@
+﻿
+<div class="panel-body">
+    <div class="form-horizontal row-border">
+        <div class="form-group" style="background:#fff;padding-top:16px!important;border-bottom:2px solid #edeff0">
+            <div class="col-sm-12 registered-label">
+                <div class="col-sm-5" style="padding-top:6px;display: inline-block;">Select from previously created Adventures</div>
+                <div class="col-sm-4">
+                    <input class="form-control" placeholder="Enter Name" type="text" style="width:70%" [(ngModel)]="searchTerm">
+                    <a href="javascript:void(0)" class=" text-right" style="color: #666;float: right;" (click)="searchChallenges()">
+                        <!--<i class="fa fa-times slide-toggle"></i>-->
+                        <i class="fa fa-search"></i>
+                    </a>
+                </div>
+                <!--<a href="createchallenge-adventure-details.html" class="btn btn-success custombutton pull-right" style="margin-top: 0"><i class="fa fa-plus"></i> Create New</a>-->
+                <a href="javascript:void(0)" (click)="CreateNewAdventureComponent()" class="btn btn-success custombutton pull-right" style="margin-top: 0"><i class="fa fa-plus"></i> Create New</a>
+            </div>
+        </div>
+        <div class="table-responsive ullitable nobgshadow">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%" style="padding-left:20px"><i class="fa fa-list-ol"></i> S.No.</th>
+                        <th width="20%"><i class="fa fa-trophy"></i> Adventure</th>
+                        <th width="15%"><i class="fa fa-map-marker"></i> Distance</th>
+                        <th width="15%"><i class="fa fa-flash"></i> Steps</th>
+                        <th width="15%"><i class="fa fa-cog"></i> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--<tr>
+                <td>1</td>
+                <td class="colrchn">Scenic Kashmir Valley</td>
+                <td align="left">400 kms</td>
+                <td>45000</td>
+                <td class="text-center" style="text-align: center;">
+                    <a href="createchallenge-adventure-enrollteams.html" class="btn btn-default"><i class="fa fa-check "></i></a>
+                </td>
+            </tr>-->
+
+                    <tr *ngFor="let adventure of adventureList; let row_no = index">
+                        <td>{{((currentPage-1) * 10) + (row_no+1)}}</td>
+                        <td class="colrchn">{{adventure.Adventure_Name}}</td>
+                        <td align="left">{{adventure.Adventure_Distance}} kms</td>
+                        <td>{{adventure.Adventure_Distance}}</td>
+                        <td class="text-center" style="text-align: center;">
+                            <!--<a [routerLink]="['/challenge/adventure-assigncorporate',adventure.ID]" class="btn btn-default"><i class="fa fa-check "></i></a>-->
+                            <a href="javascript:void(0)" class="btn btn-default" (click)="AssignAdventure(adventure.ID)"><i class="fa fa-check "></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right">
+                <pagination [boundaryLinks]="true" [maxSize]="5" [itemsPerPage]="recoredPerPage" [totalItems]="totalRecored" [(ngModel)]="currentPage" class="pagination-lg"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+

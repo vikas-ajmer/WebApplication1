@@ -1,0 +1,124 @@
+﻿<div class="panel-body">
+    <form class="form-horizontal row-border" name="corporatebasicdetail" #f="ngForm" novalidate
+          (ngSubmit)="f.form.valid&&corporateBasicDetails.corporateInfo_RegLimit>0&&corporateBasicDetails.corporate_PackageId>0 ? SaveBasicDatails() :false">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Name :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Name" name="corporateName" [disabled]="corporateBasicDetails.corporateIsUpdate" [(ngModel)]="corporateBasicDetails.corporateName" #corporateName="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted && !corporateName.valid&&!corporateBasicDetails.corporateIsUpdate">
+                    Name is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Address :</label>
+            <div class="col-sm-8 col-sm-offset-1">
+                <textarea class="form-control autosize" placeholder="Enter Address" name="corporateAddress" [(ngModel)]="corporateBasicDetails.corporateAddress" #corporateAddress="ngModel"></textarea>
+                <span class="help-block error" *ngIf="f.submitted && !corporateAddress.valid">
+                    Address is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Location :</label>
+            <div class="col-sm-8 col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Location" name="corporateLocation" [(ngModel)]="corporateBasicDetails.corporateLocation" #corporateLocation="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted && !corporateLocation.valid">
+                    Location is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Registration Limit :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <input type="number" class="form-control" placeholder="Enter Limit" name="corporateInfo_RegLimit" [(ngModel)]="corporateBasicDetails.corporateInfo_RegLimit" #corporateInfo_RegLimit="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted && !corporateInfo_RegLimit.valid">
+                    Registration Limit is required
+                </span>
+                <span class="help-block error" *ngIf="f.submitted && corporateBasicDetails.corporateInfo_RegLimit<=0">
+                    Registration Limit is more than 0
+                </span>
+            </div>
+        </div>
+        <!--<div class="form-group">
+            <label class="col-sm-2 control-label">Expiry Date :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="ion-calendar"></i></span>
+                    <input type="text" class="form-control" id="datepicker">
+                </div>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Page URL :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <div class="input-group">
+                    <span class="input-group-addon" style="font-weight:600;letter-spacing:.5px">//thewellnesscorner.com/</span>
+                    <input type="text" class="form-control" style="font-weight:600" name="corporateSubdomain" [disabled]="corporateBasicDetails.corporateIsUpdate" [(ngModel)]="corporateBasicDetails.corporateSubdomain" #corporateSubdomain="ngModel" required>
+                    <span class="help-block error" *ngIf="f.submitted && !corporateSubdomain.valid&&!corporateBasicDetails.corporateIsUpdate">
+                        Subdomain is required
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Logo :</label>
+            <div class="col-sm-8 col-sm-offset-1" *ngIf="!(ImgUrl.length&&corporateBasicDetails.corporateIsUpdate)||isLogoUpdate">
+                <div class="form-group fileuploadcustom smallheight">
+                    <ng4-files-drop (filesSelect)="filesSelect($event)" [UploadImg]="upfile">
+                    </ng4-files-drop>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="file-caption">
+                                <input type="text" class="form-control" value="{{selectedFileName}}" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <ng4-files-click (filesSelect)="filesSelect($event)">
+                                <div class="btn btn-primary btn-file"> <span class="">Browse …</span></div>
+                            </ng4-files-click>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-sm-offset-1" *ngIf="ImgUrl.length&&corporateBasicDetails.corporateIsUpdate&&!isLogoUpdate">
+                <div class="col-sm-6">
+                    <div class="logospace">
+                        <img class="img-dark" [src]="ImgUrl" alt="Tectonic">
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <label class="btn btn-primary btn-file" (click)="isLogoUpdate=!isLogoUpdate"><i class="fa fa-cloud-upload"></i> <span>Upload New Logo…</span></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <span class="checkbox inline customcheckbox">
+                    <input type="checkbox" class="tectonic" id="CorporateInfo_IsDump" name="CorporateInfo_IsDump" [(ngModel)]="corporateBasicDetails.corporateInfo_IsDump">
+                    <label for="CorporateInfo_IsDump">Is Dump</label>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Package :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <select class="form-control" id="corporatePackage" name="corporatePackage" [(ngModel)]="corporateBasicDetails.corporate_PackageId" #corporatePackage="ngModel" required>
+                    <option *ngFor="let package of packageList" value="{{package.Id}}">{{package.Name}}</option>
+                </select>
+                <span class="help-block error" *ngIf="f.submitted &&corporateBasicDetails.corporate_PackageId==0">
+                    Corporate Package is required
+                </span>
+            </div>
+        </div>
+        <div class="panel-footer" style="background:none">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-3">
+                    <button type="submit" class="btn-success btn btn-lg customb"><i class="fa fa-check"></i> Save & Next</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

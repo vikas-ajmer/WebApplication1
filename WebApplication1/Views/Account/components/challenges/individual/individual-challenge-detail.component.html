@@ -1,0 +1,214 @@
+﻿<div class="panel-body">
+    <form class="form-horizontal row-border" name="individualChallenge" #f="ngForm" novalidate
+          (ngSubmit)="f.form.valid&&corporateChallenge.ChallengeLevel>0&&selectedSearchTags.length>0 &&corporateChallenge.ChallengeDuration>0&&corporateChallenge.Selectfrequency>0&&corporateChallenge.Completions>0&&(corporateChallenge.IsAllCorporate||selectedCorporateItems.length>0)? SaveIndividualChallenge() :false">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Name :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Name" name="challengeName" [(ngModel)]="corporateChallenge.ChallengeName" #challengeName="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!challengeName.valid">
+                    Challenge Name is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Description :</label>
+            <div class="col-sm-8 col-sm-offset-1">
+                <textarea class="form-control autosize" name="challengeDescription" [(ngModel)]="corporateChallenge.ChallengeDescription" #challengeDescription="ngModel" required></textarea>
+                <span class="help-block error" *ngIf="f.submitted &&!challengeDescription.valid">
+                    Challenge Description is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Choose Corporates :</label>
+            <div class="col-sm-8 col-sm-offset-1 choosecorporaterow">
+                <div class="col-sm-5">
+                    <span class="radio inline customradio fontweightb">
+                        <input type="radio" class="tectonic" id="all" name="choosecorporate" [value]="true" [(ngModel)]="corporateChallenge.IsAllCorporate">
+                        <label for="all">All</label>
+                    </span>
+                    <span class="radio inline customradio fontweightb">
+                        <input type="radio" class="tectonic" id="specific" name="choosecorporate" [value]="false" [(ngModel)]="corporateChallenge.IsAllCorporate">
+                        <label for="specific" class="">Specific</label>
+                    </span>
+                </div>
+                <div class="col-sm-7 col-sm-offset-0" *ngIf="!corporateChallenge.IsAllCorporate">
+                    <angular2-multiselect [data]="corporateList" [(ngModel)]="selectedCorporateItems"
+                                          [settings]='corporateMSSettings' name="corporatesList"></angular2-multiselect>
+                    <span class="help-block error" *ngIf="f.submitted &&selectedCorporateItems.length<=0">
+                        please select atleast one corporate.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Category :</label>
+            <div class="col-sm-3 col-sm-offset-1">
+                <select class="form-control" id="challengeCategory" name="challengeCategory" [(ngModel)]="corporateChallenge.ChallengeCategory" #challengeCategory="ngModel" required>
+                    <option value="">Select Category</option>
+                    <option value="Get Fit">Get Fit</option>
+                    <option value="Eat Right">Eat Right</option>
+                    <option value="Stay Happy">Stay Happy</option>
+                </select>
+                <span class="help-block error" *ngIf="f.submitted &&!challengeCategory.valid">
+                    Challenge Category is required
+                </span>
+            </div>
+            <label class="col-sm-2 control-label text-left" style="text-align:right;">Recommended Level :</label>
+            <div class="col-sm-3 col-sm-offset-0">
+                <select class="form-control" id="recommendedLevel" name="recommendedLevel" [(ngModel)]="corporateChallenge.ChallengeLevel" #recommendedLevel="ngModel" required>
+                    <option value="0">Select Level</option>
+                    <option value="1">Beginner</option>
+                    <option value="2">Intermediate</option>
+                    <option value="3">Advanced</option>
+                </select>
+                <span class="help-block error" *ngIf="f.submitted &&corporateChallenge.ChallengeLevel<=0">
+                    Recommended Level is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Duration(Days) :</label>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input type="number" class="form-control" placeholder="Enter Duration" OnlyNumber="true" name="challengeDuration" [(ngModel)]="corporateChallenge.ChallengeDuration" #challengeDuration="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&corporateChallenge.ChallengeDuration<=0">
+                    Challenge Duration should be more than 0
+                </span>
+            </div>
+            <label class="col-sm-2 control-label text-left" style="text-align:right;">Audience :</label>
+            <div class="col-sm-4 col-sm-offset-0 audiencerow">
+                <span class="radio inline customradio fontweightb">
+                    <input type="radio" checked="" class="tectonic" id="public" name="audience" [value]="false" [(ngModel)]="corporateChallenge.Challenge_IsPrivateAudience">
+                    <label for="public">Public</label>
+                </span>
+                <span class="radio inline customradio fontweightb">
+                    <input type="radio" class="tectonic" id="private" name="audience" [value]="true" [(ngModel)]="corporateChallenge.Challenge_IsPrivateAudience">
+                    <label for="private" class="">Private</label>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Question :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Name" name="challengeQuestion" [(ngModel)]="corporateChallenge.ChallengeQuestion" #challengeQuestion="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!challengeQuestion.valid">
+                    Challenge Question is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Question Category :</label>
+            <div class="col-sm-8  col-sm-offset-1 quescategoryrow">
+                <span class="radio inline customradio fontweightb">
+                    <input type="radio" class="tectonic" id="ansques" name="quescategory" [value]="1" [(ngModel)]="rdblstChallengeCategory">
+                    <label for="ansques">Answering A Question</label>
+                </span>
+                <span class="radio inline customradio fontweightb">
+                    <input type="radio" class="tectonic" id="countques" name="quescategory" [value]="0" [(ngModel)]="rdblstChallengeCategory">
+                    <label for="countques" class="">Counting Something</label>
+                </span>
+                <div class="col-sm-3 col-sm-offset-0">
+                    <select id="counting" class="form-control selectBoxIt customselectbox" name="Counting" [(ngModel)]="corporateChallenge.CountingCategory" [disabled]="rdblstChallengeCategory==1">
+                        <option value="">Counting Answer:</option>
+                        <option *ngFor="let item of ChallengeCounting" value="{{item.value}}">{{item.label}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="rdblstChallengeCategory==1">
+            <label class="col-sm-2 control-label">Desired Answer :</label>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Answer" name="desiredAnswer" [(ngModel)]="corporateChallenge.Desiredanswer" #desiredAnswer="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!desiredAnswer.valid">
+                    Desired Answer is required
+                </span>
+            </div>
+            <label class="col-sm-2 control-label text-left" style="text-align:right;">Alternate Answer :</label>
+            <div class="col-sm-3 col-sm-offset-0">
+                <input type="text" class="form-control" placeholder="Enter Alternative" name="alternateAnswer" [(ngModel)]="corporateChallenge.AlternateAnswer" #alternateAnswer="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!alternateAnswer.valid">
+                    Alternate Answer is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Completion Thershold :</label>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input type="number" class="form-control" placeholder="Enter Value" OnlyNumber="true" name="Thershold" [(ngModel)]="corporateChallenge.Completions" #Thershold="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&corporateChallenge.Completions<=0">
+                    Completion Thershold should be more than 0
+                </span>
+            </div>
+            <label class="col-sm-2 control-label text-left" style="text-align:right;">Check-In Frequency :</label>
+            <div class="col-sm-3 col-sm-offset-0">
+                <select class="form-control" id="Frequency" name="Frequency" [(ngModel)]="corporateChallenge.Selectfrequency" #Frequency="ngModel" required>
+                    <option value="0">Select Frequency</option>
+                    <option value="3">Daily</option>
+                    <option value="2">Weekly</option>
+                    <option value="1">Monthly</option>
+                </select>
+                <span class="help-block error" *ngIf="f.submitted &&corporateChallenge.Selectfrequency<=0">
+                    Check-In Frequency is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Check-in Button Label :</label>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Label" name="CheckinBox" [(ngModel)]="corporateChallenge.CheckinBox" #CheckinBox="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!CheckinBox.valid">
+                    Check-in Button is required
+                </span>
+            </div>
+            <label class="col-sm-2 control-label text-left" style="text-align:right;">Search Tags :</label>
+            <div class="col-sm-3 col-sm-offset-0">
+                <angular2-multiselect [data]="searchTag" [(ngModel)]="selectedSearchTags"
+                                      name="searchTag"></angular2-multiselect>
+                <span class="help-block error" *ngIf="f.submitted &&selectedSearchTags.length<=0">
+                    please select atleast one search tag.
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Image :</label>
+            <div class="col-sm-8 col-sm-offset-1" *ngIf="!(ImgUrl.length)||isLogoUpdate">
+                <div class="fileinput fileinput-new" style="width: 100%">
+                    <div class="input-group">
+                        <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="selectedFileName">
+                            {{selectedFileName}}
+                        </div>
+                        <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="!selectedFileName">
+                            &nbsp;
+                        </div>
+                        <span class="input-group-btn">
+                            <ng4-files-click (filesSelect)="filesSelect($event)">
+                                <span class="btn btn-default btn-file">
+                                    <span class="fileinput-new">Select file</span>
+                                </span>
+                            </ng4-files-click>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-sm-offset-1" *ngIf="ImgUrl.length&&!isLogoUpdate">
+                <div class="col-sm-6">
+                    <div class="logospace">
+                        <img class="img-dark" [src]="ImgUrl" alt="Tectonic">
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <label class="btn btn-primary btn-file" (click)="isLogoUpdate=!isLogoUpdate"><i class="fa fa-cloud-upload"></i> <span>Upload New Image…</span></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer" style="background:none">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-3">
+                    <button type="submit" class="btn-success btn btn-lg customb"><i class="fa fa-check"></i> Save & Next</button>
+                    <a href="createchallenge.html" class="btn-default btn btn-lg customb"><i class="fa fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

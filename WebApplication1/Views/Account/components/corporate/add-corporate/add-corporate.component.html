@@ -1,0 +1,33 @@
+﻿<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-trophy"></i>
+                <h1><span>Create a Corporate</span></h1>
+                <p> <a [routerLink]="['/']" class="link">Home</a> > <a [routerLink]="['/corporate']" class="link">Corporate</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right selectcorporate">
+            <a href="#" class="btn btn-default custombutton"><i class="fa fa-long-arrow-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+
+<div class="content-block customformstyle">
+    <div class="row">
+        <div class="panel panel-default alt">
+            <div class="panel-heading">
+                <ul class="wizardstyle">
+                    <li [ngClass]="{'active':step=='basic','complete':basicComplete}"><span *ngIf="!basicComplete">1</span><span *ngIf="basicComplete"><i class="fa fa-check"></i></span> <i class="fa fa-address-card"></i> Basic Details</li>
+                    <li [ngClass]="{'active':step=='feature','complete':featureComplete}"><span *ngIf="!featureComplete">2</span><span *ngIf="featureComplete"><i class="fa fa-check"></i></span> <i class="fa fa-list-ul"></i> Select Features</li>
+                    <li [ngClass]="{'active':step=='import','complete':importComplete}" *ngIf="!IsCorporateEdit"><span *ngIf="!importComplete">3</span><span *ngIf="importComplete"><i class="fa fa-check"></i></span> <i class="fa fa-download"></i> Import Users</li>
+                    <li [ngClass]="{'active':step=='home'}"><span *ngIf="!IsCorporateEdit">4</span><span *ngIf="IsCorporateEdit">3</span> <i class="fa fa-home"></i> Home Page</li>
+                </ul>
+            </div>
+            <basic-detail *ngIf="step=='basic'"></basic-detail>
+            <select-feature *ngIf="step=='feature'"></select-feature>
+            <import-user *ngIf="step=='import'"></import-user>
+            <div class="panel-body" *ngIf="step=='home'">comming soon..</div>
+        </div>
+    </div>
+</div>

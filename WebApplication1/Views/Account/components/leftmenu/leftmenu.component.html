@@ -1,0 +1,8 @@
+<nav role="navigation" class="widget-body">
+    <ul class="acc-menu">
+        <li  *ngFor="let item of menuItems" [ngClass]="{'open':getActiveMenu(item.href)}">
+            <a [routerLink]="[item.href]"><span class="icon"><i class="{{item.icon}}"></i></span><span class="text">{{item.name}}</span></a>
+        </li>
+    </ul>
+</nav>
+

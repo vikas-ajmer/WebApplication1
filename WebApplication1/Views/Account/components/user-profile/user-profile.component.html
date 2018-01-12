@@ -1,0 +1,371 @@
+<div class="content-block headingrow" style="display: none">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-address-book"></i>
+                <h1><span>User Profile</span></h1>
+                <p>some text comes here</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block mainstats">
+    <div class="dashboard-user">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="user-profile">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-5 text-center">
+                                <div class="userimg-avatar">
+                                    <img class="img-responsive" src={{userModel.Entity.MemberImage}}>
+                                    <span class="activeuser" data-toggle="tooltip" data-placement="top" title="Active"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="username-title">{{userModel.Entity.MemberName}}</div>
+                                <div class="type"><i class="fa fa-male"></i> {{userModel.Entity.MemeberGender}}</div>
+                                <div class="type"><i class="fa fa-calendar-plus-o"></i> {{userModel.Entity.Age}} yrs</div>
+                                <div class="deactivate"><a href="#" class="btn btn-default"><i class="fa fa-user-times"></i> Deactivate User </a></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12 col-md-offset-0" [ngSwitch]="userModel.Entity.RegistrationCompleted">
+                                <div [ngClass]="userModel.Entity.RegistrationCompleted === 1 ? 'usersteps' : 'usersteps notdone'">
+                                    <div class="icontitle"><img class="img-responsive" src="../../assets/img/user-registration.svg">  Registration</div>
+                                    <div class="titlestatus" *ngSwitchCase="1">
+                                        <i class="fa fa-check-circle"></i> <span>Done</span>
+                                    </div>
+                                    <div class="titlestatus" *ngSwitchDefault>
+                                        <i class="fa fa-times-circle"></i> <span>Not Done</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-md-offset-0" [ngSwitch]="userModel.Entity.HealthProfileCompleted">
+                                <div [ngClass]="userModel.Entity.HealthProfileCompleted === '1' ? 'usersteps' : 'usersteps notdone'">
+                                    <div class="icontitle"><img class="img-responsive" src="../../assets/img/user-profile.svg">  Profile Completed</div>
+                                    <div class="titlestatus" *ngSwitchCase="1">
+                                        <i class="fa fa-check-circle"></i> <span>Done</span>
+                                    </div>
+                                    <div class="titlestatus" *ngSwitchDefault>
+                                        <i class="fa fa-times-circle"></i> <span>Not Done</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-md-offset-0" [ngSwitch]="userModel.Entity.isHRACompletedOn">
+                                <div [ngClass]="userModel.Entity.isHRACompletedOn === true? 'usersteps' : 'usersteps notdone'">
+                                    <div class="icontitle"><img class="img-responsive" src="../../assets/img/user-hra.svg">  HRA</div>
+                                    <div class="titlestatus" *ngSwitchCase="true">
+                                        <i class="fa fa-check-circle"></i> <span>Done</span>
+                                    </div>
+                                    <div class="titlestatus" *ngSwitchDefault>
+                                        <i class="fa fa-times-circle"></i> <span>Not Done</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="dashboard-user-stats">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-center">
+                                <div class="circlelight"><i class="fa fa-stethoscope"></i></div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="stats">27 A</div>
+                                <div class="title">Health Risk Score</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4 text-center">
+                                <div class="circlelight peps"><i class="fa fa-heart-o"></i></div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="stats peps">{{userModel.Entity.Peps}}</div>
+                                <div class="title">Total PEPs</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 margintop">
+                            <div class="col-md-4 text-center">
+                                <div class="circlelight steps"><i class="fa fa-wheelchair"></i></div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="stats steps">{{userModel.Entity.TotalSteps}}</div>
+                                <div class="title">Total Steps</div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 margintop">
+                            <div class="col-md-2 text-center">
+                                <div class="circlelight lastlogin"><i class="fa fa-clock-o"></i></div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="stats lastlogin">{{userModel.Entity.LastLoggedInOn | date:'MM/dd/yyyy HH:MM'}}</div>
+                                <div class="title">Last Login</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ngx-loading [show]="userModel.ShowLoading"></ngx-loading>
+</div>
+<div class="clearfix"></div>
+
+<div class="row userprofilepage" style="padding:0;margin:10px">
+    <div class="col-md-6">
+        <div class="content-block usersrow">
+            <div class="row">
+                <div class="table-heading">
+                    <div class="col-md-7">
+                        <h2><span>My Programs</span></h2>
+                        <p></p>
+                    </div>
+                    <div class="col-md-5" *ngIf="userPrograms.Entity.length>0">
+                        <div class="input-group">
+                            <input class="form-control" type="search" [(ngModel)]="searchInputProgramName" placeholder="Search program..." style="border:solid 1px rgba(103,117,124,.3) !important">
+                            <div class="input-group-btn">
+                                <button (click)="onSearchProgramName()" class="btn btn-info"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive homepage leaderboard userslist">
+                    <table class="table paddleftless" *ngIf="userPrograms.Entity.length>0">
+                        <thead>
+                            <tr>
+                                <th width="17%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                <th (click)="GetProgramsSortOrder('program')" style="cursor:pointer;text-align: left; width:35%"><i class="fa fa-check-square"></i> Program <i class="fa" [ngClass]="{'fa-sort-asc':sortOrderProgram=='ASC','fa-sort-desc':sortOrderProgram=='DESC'}" *ngIf="sortByProgram=='program'"></i> </th>
+                                <th (click)="GetProgramsSortOrder('date')" style="cursor:pointer"><i class="fa fa-calendar"></i> Start Date <i class="fa" [ngClass]="{'fa-sort-asc':sortOrderProgram=='ASC','fa-sort-desc':sortOrderProgram=='DESC'}" *ngIf="sortByProgram=='date'"></i> </th>
+                                <th><i class="fa fa-battery-three-quarters"></i> Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of userPrograms.Entity">
+                                <td></td>
+                                <td class="textleft">{{item.ProgramName}}</td>
+                                <td>{{item.StartDate|date: 'dd/MM/yyyy'}}</td>
+                                <td>
+                                    <div class="userstatus" [ngClass]="{ 'incomplete':item.IsIncomplete==1, 'ongoing':item.IsOngoing==1,'completed':item.IsCompleted==1}">
+                                        <span *ngIf="item.IsIncomplete==1">
+                                            Incomplete
+                                        </span>
+                                        <span *ngIf="item.IsOngoing==1">
+                                            Ongoing
+                                        </span>
+                                        <span *ngIf="item.IsCompleted==1">
+                                            Completed
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination *ngIf="userPrograms.Entity.length>0" (pageChanged)="GetProgramsRecordChange($event)" [maxSize]="3" [boundaryLinks]="true" [itemsPerPage]="recoredPerPageProgram" [totalItems]="totalRecordProgram" [(ngModel)]="currentPageProgram" class="pagination-lg"
+                                previousText="&lsaquo;" nextText="&rsaquo;" firstText="First" lastText="Last"></pagination>
+
+                    <div class="row" *ngIf="userPrograms.Entity.length<=0">
+                        <div class="card">
+                            <div class="card-block">
+                                <h3 class="card-title">No Programs available!</h3>
+                                <p class="card-text">This user has no Programs. Would you like to add program ?</p>
+                                <a href="javascript:void(0)" class="btn btn-primary">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ngx-loading [show]="userPrograms.ShowLoading"></ngx-loading>
+    </div>
+
+    <div class="col-md-6">
+        <div class="content-block usersrow">
+            <div class="row">
+                <div class="table-heading">
+                    <div class="col-md-7">
+                        <h2><span>My Challenges</span></h2>
+                        <p></p>
+                    </div>
+                    <div class="col-md-5" *ngIf="userChallenges.Entity.length>0">
+                        <div class="input-group">
+                            <input class="form-control" type="search" [(ngModel)]="searchInputChallengeName" placeholder="Search challenge..." style="border:solid 1px rgba(103,117,124,.3) !important">
+                            <div class="input-group-btn">
+                                <button (click)="onSearchChallengeName()" class="btn btn-info"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive homepage leaderboard userslist">
+                    <table class="table paddleftless" *ngIf="userChallenges.Entity.length>0">
+                        <thead>
+                            <tr>
+                                <th width="17%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                <th (click)="GetChallengeSortOrder('challenge')" style="cursor:pointer;text-align: left; width:35%"><i class="fa fa-check-square"></i> Challenges <i class="fa" [ngClass]="{'fa-sort-asc':sortOrderChallenge=='ASC','fa-sort-desc':sortOrderChallenge=='DESC'}" *ngIf="sortByChallenge=='challenge'"></i> </th>
+                                <th (click)="GetChallengeSortOrder('date')" style="cursor:pointer"><i class="fa fa-calendar"></i> Start Date <i class="fa" [ngClass]="{'fa-sort-asc':sortOrderChallenge=='ASC','fa-sort-desc':sortOrderChallenge=='DESC'}" *ngIf="sortByChallenge=='date'"></i></th>
+                                <th><i class="fa fa-battery-three-quarters"></i> Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of userChallenges.Entity">
+                                <td></td>
+                                <td class="textleft">{{item.ChallengeName}}</td>
+                                <td>{{item.JoinDate|date: 'dd/MM/yyyy'}}</td>
+                                <td>
+                                    <div class="userstatus" [ngClass]="
+                                         { 'incomplete':item.IsIncomplete==1,
+                                         'ongoing':item.IsOngoing==1,
+                                         'completed':item.IsCompleted==1,
+                                         'incomplete':item.IsCompleted==0 && item.IsIncomplete==0 && item.IsOngoing==0
+                                         }">
+                                        <span *ngIf="item.IsIncomplete==1">
+                                            Incomplete
+                                        </span>
+                                        <span *ngIf="item.IsOngoing==1">
+                                            Ongoing
+                                        </span>
+                                        <span *ngIf="item.IsCompleted==1">
+                                            Completed
+                                        </span>
+                                        <span *ngIf="item.IsCompleted==0 && item.IsOngoing==0 && item.IsIncomplete==0">
+                                            N/A
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <pagination *ngIf="userChallenges.Entity.length>0" (pageChanged)="GetChallengeRecordChange($event)" [maxSize]="3" [boundaryLinks]="true" [itemsPerPage]="recoredPerPageChallenge" [totalItems]="totalRecordChallenge" [(ngModel)]="currentPageChallenge" class="pagination-lg"
+                                previousText="&lsaquo;" nextText="&rsaquo;" firstText="First" lastText="Last"></pagination>
+
+                    <div class="row" *ngIf="userChallenges.Entity.length<=0">
+                        <div class="card">
+                            <div class="card-block">
+                                <h3 class="card-title">No Challenges available!</h3>
+                                <p class="card-text">This user has no challenges. Would you like to add challenges ?</p>
+                                <a href="javascript:void(0)" class="btn btn-primary">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ngx-loading [show]="userChallenges.ShowLoading"></ngx-loading>
+    </div>
+</div>
+
+<div class="row userprofilepage" style="padding:0;margin:10px">
+
+    <div class="col-md-6">
+        <div class="content-block usersrow">
+            <div class="row">
+                <div class="table-heading">
+                    <div class="col-md-7">
+                        <h2><span>PEPs Audit Trail</span></h2>
+                        <p></p>
+                    </div>
+                    <div class="col-md-5 text-right" *ngIf="userPepStatement.Entity.length>0">
+                        <select (ngModelChange)="onMonthChangePEPs($event)" id="recoredSelect" #recoredSelect ngModel="NOMONTH" aria-controls="example" class="form-control" style="border:solid 1px rgba(103,117,124,.3) !important">
+                            <option value="NOMONTH">Select Month</option>
+                            <option *ngFor="let item of userPepStatement.Entity" value="{{item.StatementDate|date}}">{{item.StatementDate}}{{' - '+ item.Points +' Points'}}</option>
+                        </select>
+                        <!--<a href="#" class="btn btn-lg btn-inverse-alt viewsmall"><i class="fa fa-list-ul"></i> View All</a>-->
+                    </div>
+                </div>
+
+                <div class="table-responsive homepage leaderboard userslist">
+                    <table class="table paddleftless" *ngIf="userPepStatement_Monthly.Entity.length>0">
+                        <thead>
+                            <tr>
+                                <th width="16%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                <th style="text-align: left; width:35%"><i class="fa fa-tasks"></i> Task</th>
+                                <th><i class="fa fa-calendar"></i> Date</th>
+                                <th><i class="fa fa-heartbeat"></i> PEPs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of userPepStatement_Monthly.Entity">
+                                <td></td>
+                                <td class="textleft">{{item.Activity}}</td>
+                                <td>{{item.ActivityDate|date:'MMM dd, yyyy'}}</td>
+                                <td>{{item.Points}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row" *ngIf="userPepStatement_Monthly.Entity.length<=0">
+                        <div class="card">
+                            <div class="card-block">
+                                <h3 class="card-title">No PEPs trail available!</h3>
+                                <p class="card-text">This user has no PEPs. Would you like to add PEPs trail?</p>
+                                <a href="javascript:void(0)" class="btn btn-primary">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ngx-loading [show]="userPepStatement_Monthly.ShowLoading"></ngx-loading>
+    </div>
+
+    <div class="col-md-6">
+        <div class="content-block usersrow">
+            <div class="row">
+                <div class="table-heading">
+                    <div class="col-md-9">
+                        <h2><span>Steps Audit Trail</span></h2>
+                        <p></p>
+                    </div>
+                    <!--<div class="col-md-3 text-right" *ngIf="userSteps.Entity.length>0">
+                        <a href="#" class="btn btn-lg btn-inverse-alt viewsmall"><i class="fa fa-list-ul"></i> View All</a>
+                    </div>-->
+                </div>
+
+                <div class="table-responsive homepage leaderboard userslist">
+                    <table class="table paddleftless" *ngIf="userSteps.Entity.length>0">
+                        <thead>
+                            <tr>
+                                <th width="16%"><i class="fa fa-list-ol"></i> S.No.</th>
+                                <th (click)="GetSortOrder('date')" style="cursor:pointer"><i class="fa fa-calendar"></i> Date <i class="fa" [ngClass]="{'fa-sort-asc':sortOrder=='ASC','fa-sort-desc':sortOrder=='DESC'}" *ngIf="sortBy=='date'"></i></th>
+                                <th (click)="GetSortOrder('step')" style="cursor:pointer"><i class="fa" [ngClass]="{'fa-sort-amount-asc':sortOrder=='ASC','fa-sort-amount-desc':sortOrder=='DESC'}"></i> Steps</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of userSteps.Entity">
+                                <td></td>
+                                <td>
+                                    {{item.TrackerDate|date: 'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    {{
+item.Steps
+                                    }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination *ngIf="userSteps.Entity.length>0" (pageChanged)="GetCurrentPageRecored($event)" [maxSize]="3" [boundaryLinks]="true" [itemsPerPage]="recoredPerPage" [totalItems]="totalRecord" [(ngModel)]="currentPage" class="pagination-lg"
+                                previousText="&lsaquo;" nextText="&rsaquo;" firstText="First" lastText="Last"></pagination>
+
+                    <div class="row" *ngIf="userSteps.Entity.length<=0">
+                        <div class="card">
+                            <div class="card-block">
+                                <h3 class="card-title">No Steps trail available!</h3>
+                                <p class="card-text">This user has no Steps. Would you like to add Steps trail?</p>
+                                <a href="javascript:void(0)" class="btn btn-primary">Add</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ngx-loading [show]="userSteps.ShowLoading"></ngx-loading>
+    </div>
+</div>

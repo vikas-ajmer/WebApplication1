@@ -1,0 +1,149 @@
+﻿<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="welcome">
+                <div class="userimg"><avatar size="40" name={{corporateDetail.CorporateName}} [displayType]="'circle'"></avatar></div>
+                <h1><span>{{corporateDetail.CorporateName}}</span></h1>
+                <p> <a [routerLink]="['/']" class="link">Home</a> > <a [routerLink]="['/corporate']" class="link">Corporates</a></p>
+            </div>
+        </div>
+        <div class="col-md-7 text-right selectcorporate">
+            <a [routerLink]="['/corporate/add-employee',corporateInfoId]" class="btn btn-success custombutton"><i class="fa fa-plus"></i> Add Employee</a>
+            <a [routerLink]="['/corporate/delete-employee',corporateInfoId]" class="btn btn-default custombutton"><i class="fa fa-trash"></i> Delete Employee</a>
+            <a [routerLink]="['/corporate/add',corporateInfoId]" class="btn btn-default custombutton"><i class="fa fa-pencil"></i> Edit Details</a>
+        </div>
+    </div>
+</div>
+<div class="content-block mainstats">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="dashboard-mini-stats">
+                <div class="title">Users Registered</div>
+                <div class="clearfix">
+                    <div class="stats-alt pull-left" *ngIf="isShowCounter">
+                        <div counto [step]="10" [countTo]="corporateDetail.UserRegistered" [countFrom]="0" [duration]="2" (countoChange)="counto_r = $event">{{counto_r| number:'1.0-0'}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="fa fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-mini-stats purple">
+                <div class="title">Unique Logins</div>
+                <div class="clearfix">
+                    <div class="stats-alt pull-left" *ngIf="isShowCounter">
+                        <div counto [step]="10" [countTo]="corporateDetail.UniqueLogins" [countFrom]="0" [duration]="2" (countoChange)="counto_l = $event">{{counto_l| number:'1.0-0'}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="fa fa-sign-in"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-mini-stats">
+                <div class="title">Profiles Completed</div>
+                <div class="clearfix">
+                    <div class="stats-alt pull-left" *ngIf="isShowCounter">
+                        <div counto [step]="10" [countTo]="corporateDetail.ProfileCompleted" [countFrom]="0" [duration]="2" (countoChange)="counto_p = $event">{{counto_p| number:'1.0-0'}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="fa fa-address-card"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-mini-stats purple">
+                <div class="title">HRAs Completed</div>
+                <div class="clearfix">
+                    <div class="stats-alt pull-left" *ngIf="isShowCounter">
+                        <div counto [step]="10" [countTo]="corporateDetail.HRACompleted" [countFrom]="0" [duration]="2" (countoChange)="counto_h = $event">{{counto_h| number:'1.0-0'}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="fa fa-user-secret"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-block customalerts" *ngIf="isUserOverLimit||isCorporateExpire">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default alt">
+                <div class="panel-heading">
+                    <h2><i class="fa fa-bell" style="font-size:12px"></i>Notice</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-dismissable alert-warning" *ngIf="isUserOverLimit">
+                        <i class="ion-android-warning"></i>&nbsp; Total employees registered are over the registration limit.
+                        Please <a href="javascript:void()" class="delete"><b>delete employees</b></a> now.
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="alert alert-dismissable alert-danger" *ngIf="isCorporateExpire">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <i class="ion-calendar"></i>&nbsp; Corporate expiry date was on <strong>January 31, 2017</strong>
+                            </div>
+                            <div class="col-md-7 text-right">
+                                <a href="javascript:void()" class="btn btn-success"><i class="fa fa-arrow-circle-up"></i> Extend Expiry Date</a> <a href="javascript:void()" class="btn btn-danger"><i class="fa fa-minus-circle"></i> Restrict Access</a>
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block usersrow">
+    <div class="row">
+        <div class="table-heading">
+            <div class="col-md-4">
+                <h2><span>Leaderboard</span></h2>
+                <p class="sorttabs">Sort By: <a href="javascript:void(0)" [ngClass]="{'active':sortBy=='peps'}" (click)="SortCorporateLeaderBoard('peps')">PEPs</a><a href="javascript:void(0)" [ngClass]="{'active':sortBy=='step'}" (click)="SortCorporateLeaderBoard('step')">Steps</a> </p>
+            </div>
+            <div class="col-md-8">
+                <search-box (searchChange)="onSearchChanged($event)" (recoredChange)="onRecoredChanged($event)" placeholder="Search by email ID"></search-box>
+            </div>
+        </div>
+        <div class="table-responsive homepage leaderboard">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="7%"><i class="fa fa-sort-numeric-asc"></i> Rank</th>
+                        <th width="40%" style="text-align:left"><i class="fa fa-user-circle-o"></i> Employee</th>
+                        <th *ngIf="sortBy=='peps'"><i class="fa fa-heartbeat"></i> Total PEPs</th>
+                        <th *ngIf="sortBy=='step'"><i class="fa fa-heartbeat"></i> Total Steps</th>
+                        <th style="text-align: center;padding-left: 0"><i class="fa fa-sign-in"></i> Last Login</th>
+                        <th><i class="fa fa-briefcase"></i> View Audit Trail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let corporateLeader of corporateLeaderBoard;index as i;">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <div class="userimg">
+                                <!--<span class="avatar" *ngIf="corporateLeader.Image.length"><img class="img-responsive img-rounded" src="{{corporateLeader.MemberImage}}"></span>-->
+                                <avatar size="40" name={{corporateLeader.MemberName}} [displayType]="'circle'"></avatar>
+                            </div>
+                            <div class="username"><h4>{{corporateLeader.MemberName}}</h4></div>
+                        </td>
+                        <td *ngIf="sortBy=='peps'">{{corporateLeader.Peps}}</td>
+                        <td *ngIf="sortBy=='step'">{{corporateLeader.Step}}</td>
+                        <td><i class="fa fa-clock-o"></i>{{corporateLeader.LastLogin |date}}</td>
+                        <td><a [routerLink]="['/userprofile/view',corporateLeader.MemberId]" class="btn btn-default"><i class="fa fa-eye"></i> View </a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right">
+                <pagination [boundaryLinks]="true" [maxSize]="5" [itemsPerPage]="recoredPerPage" [totalItems]="totalRecored" [(ngModel)]="currentPage" class="pagination-lg"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

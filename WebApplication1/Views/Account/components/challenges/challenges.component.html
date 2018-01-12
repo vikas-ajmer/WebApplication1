@@ -1,0 +1,211 @@
+﻿
+<div dropdown [autoClose]="false">
+    <div class="content-block headingrow">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="welcome">
+                    <i class="fa fa-trophy"></i>
+                    <h1><span>Challenges</span></h1>
+                    <p> <a [routerLink]="['/']" class="link">Home</a> > Challenges</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-right selectcorporate">
+                <a [routerLink]="['/challenge/add']" class="btn btn-success custombutton"><i class="fa fa-plus"></i> Create a New Challenge</a>
+                <a href="javascript:void(0)" class="btn btn-default custombutton slide-toggle" dropdownToggle><i class="fa fa-search"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="content-block searchfilterrow" *dropdownMenu>
+        <div class="row">
+            <div class="col-md-2"><span class="filtertextd"><i class="fa fa-search"></i> Search Filter:</span></div>
+            <div class="col-md-5">
+                <div class="col-md-6">
+                    <label>By Corporate</label>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            {{selectCorporateName}} <i class="pl-xs ion-ios-arrow-down"></i>
+                        </button>
+                        <ul role="menu" class="dropdown-menu">
+                            <li *ngFor="let corporate of corporatesList">
+                                <a href="javascript:void(0)" (click)="setCorporate(corporate.CorporateInfoID)">{{corporate.CorporateInfo_Name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label>By Type</label>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            {{challengeTypeName}} <i class="pl-xs ion-ios-arrow-down"></i>
+                        </button>
+                        <ul role="menu" class="dropdown-menu">
+                            <li *ngFor="let item of corporateTypeList">
+                                <a href="javascript:void(0)" (click)="setCorporateType(item.TypeId)">{{item.TypeName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>Challenges Name</label>
+                <input class="form-control" placeholder="Enter Name" type="text" style="width:70%" [(ngModel)]="searchTerm">
+                <a href="javascript:void(0)" class=" text-right" style="color: #666;float: right;" (click)="searchChallenges()">
+                    <!--<i class="fa fa-times slide-toggle"></i>-->
+                    <!--<i class="fa fa-search"></i>-->
+                    Apply
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block">
+    <div class="row">
+        <div class="table-responsive ullitable">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="9%" style="padding-left:20px"><i class="fa fa-list-ol"></i> S.No.</th>
+                        <th width="25%"><i class="fa fa-trophy"></i> Challenge</th>
+                        <th width="20%"><i class="fa fa-users"></i> Participants</th>
+                        <th><i class="fa fa-flash"></i> Type</th>
+                        <th><i class="fa fa-building"></i> Corporate</th>
+                        <th><i class="fa fa-cog"></i> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let challenge of challengeList; let row_no = index">
+                        <td>{{((currentPage-1) * 10) + (row_no+1)}}</td>
+                        <td class="colrchn">{{challenge.ChallengeName}}</td>
+                        <td>
+                            <div class="teamsimg">
+                                <span class="userconts" style="display: inline;"> {{challenge.ParticipantsCount}} </span>
+                            </div>
+                        </td>
+                        <td>{{challenge.ChallengeTypeName}}</td>
+                        <td align="left">
+                            <div class="username"><h4>{{challenge.CorporateName}}</h4></div>
+                        </td>
+                        <td><a href="javascript:void(0)" class="btn btn-default"><i class="fa fa-eye"></i> View Details </a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right">
+                <pagination [boundaryLinks]="true" [maxSize]="5" [itemsPerPage]="recoredPerPage" [totalItems]="totalRecored" [(ngModel)]="currentPage" class="pagination-lg"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div dropdown [autoClose]="false">
+    <div class="content-block headingrow">
+        <div class="row">
+            <div class="col-md-8">
+                
+            </div>
+            <div class="col-md-4 text-right selectcorporate">                
+                <a href="javascript:void(0)" class="btn btn-default custombutton slide-toggle" dropdownToggle><i class="fa fa-search"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="content-block searchfilterrow" *dropdownMenu>
+        <div class="row">
+            <div class="col-md-2"><span class="filtertextd"><i class="fa fa-search"></i> Search Filter:</span></div>
+            <div class="col-md-5">
+                <div class="col-md-6">
+                    <label>By Corporate</label>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            {{selectCorporateName2}} <i class="pl-xs ion-ios-arrow-down"></i>
+                        </button>
+                        <ul role="menu" class="dropdown-menu">
+                            <li *ngFor="let corporate of individualCorporatesList">
+                                <a href="javascript:void(0)" (click)="setIndividualCorporate(corporate.CorporateInfoID)">{{corporate.CorporateInfo_Name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--<div class="col-md-4">
+                    <label>By Category</label>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            All <i class="pl-xs ion-ios-arrow-down"></i>
+                        </button>
+                        <ul role="menu" class="dropdown-menu">
+                            <li><a href="#">All</a></li>
+                            <li><a href="#">Get Fit</a></li>
+                            <li><a href="#">Eat Right</a></li>
+                            <li><a href="#">Stay Happy</a></li>
+                        </ul>
+                    </div>
+                </div>-->
+                <div class="col-md-6">
+                    <label>By Category</label>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            {{challengeCategoryName}} <i class="pl-xs ion-ios-arrow-down"></i>
+                        </button>
+                        <ul role="menu" class="dropdown-menu">
+                            <li *ngFor="let item of challengeCategoryList">
+                                <a href="javascript:void(0)" (click)="setIndividualCorporateType(item.TypeId)">{{item.TypeName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>Challenges Name</label>
+                <input class="form-control" placeholder="Enter Name" type="text" style="width:70%" [(ngModel)]="individualSearchTerm">
+                <a href="javascript:void(0)" class=" text-right" style="color: #666;float: right;" (click)="searchIndividualChallenges()">
+                    <!--<i class="fa fa-times slide-toggle"></i>-->
+                    <!--<i class="fa fa-search"></i>-->
+                    Apply
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block">
+    <div class="row">
+        <div class="table-responsive ullitable">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="9%" style="padding-left:20px"><i class="fa fa-list-ol"></i> S.No.</th>
+                        <th width="25%"><i class="fa fa-trophy"></i> Challenge</th>
+                        <th width="20%"><i class="fa fa-users"></i> Participants</th>
+                        <th><i class="fa fa-flash"></i> Category</th>
+                        <th><i class="fa fa-building"></i> Corporate</th>
+                        <th><i class="fa fa-cog"></i> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let challenge of individualChallengeList; let row_no = index">
+                        <td>{{((individualCurrentPage-1) * 10) + (row_no+1)}}</td>
+                        <td class="colrchn">{{challenge.ChallengeName}}</td>
+                        <td>
+                            <div class="teamsimg">
+                                <span class="userconts" style="display: inline;"> {{challenge.ParticipantsCount}} </span>
+                            </div>
+                        </td>
+                        <td>{{challenge.ChallengeTypeName}}</td>
+                        <td align="left">
+                            <div class="username"><h4>{{challenge.CorporateName}}</h4></div>
+                        </td>
+                        <td><a href="javascript:void(0)" class="btn btn-default"><i class="fa fa-eye"></i> View Details </a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right">
+                <pagination [boundaryLinks]="true" [maxSize]="5" [itemsPerPage]="individualRecoredPerPage" [totalItems]="individualTotalRecored" [(ngModel)]="individualCurrentPage" class="pagination-lg"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecoredIndividual($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

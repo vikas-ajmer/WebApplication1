@@ -1,0 +1,163 @@
+﻿<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-building"></i>
+                <h1><span>Reports</span></h1>
+                <p> <a [routerLink]="['/']" class="link">Home</a> > Reports</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right selectcorporate">
+            <!--<a [routerLink]="['/corporate/add']" class="btn btn-success custombutton"><i class="fa fa-plus"></i> Add Corporate</a>-->
+        </div>
+    </div>
+</div>
+<div class="content-block">
+    <div class="panel panel-default alt">
+        <div class="panel-body">
+            <div class="form-horizontal row-border">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">From:</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="From" placeholder="Datepicker" bsDatepicker [maxDate]="toDate" [(ngModel)]="fromDate">
+                    </div>
+                    <label class="col-sm-1 control-label">To:</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="From" placeholder="Datepicker" bsDatepicker [minDate]="fromDate" [maxDate]="todayDate" [(ngModel)]="toDate">
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="javascript:;" class="btn btn-success" (click)="GetStaticCorporateReport()">Show Report</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block">
+    <div class="panel panel-default alt">
+        <div class="panel-heading">
+            <h2 (click)="Toggletable($event)"><i class="fa fa-minus"></i>Report 1</h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive reporttable">
+                        <table class="table row-space">
+                            <thead>
+                                <tr>
+                                    <td>S.No.</td>
+                                    <td>Corporate</td>
+                                    <td>Total Employee</td>
+                                    <td>Unique Login</td>
+                                    <td>Profile Completed</td>
+                                    <td>HRA Completed</td>
+                                    <td>Total Chat</td>
+                                    <td>Appointment Accepted</td>
+                                    <td>No Of Diet Reques</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of Report1;index as i;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{data.CorporateInfo_Name}}</td>
+                                    <td>{{data.TotalEmp}}</td>
+                                    <td>{{data.TotalUniqueLogin}}</td>
+                                    <td>{{data.ProfileComplete}}</td>
+                                    <td>{{data.HRAComplete}}</td>
+                                    <td>{{data.TotalChat}}</td>
+                                    <td>{{data.TotalAppointmentAccept}}</td>
+                                    <td>{{data.NoOfDietRequest}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block">
+    <div class="panel panel-default alt">
+        <div class="panel-heading">
+            <h2 (click)="Toggletable($event)"><i class="fa fa-minus"></i>Report 2</h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive reporttable">
+                        <table class="table row-space">
+                            <thead>
+                                <tr>
+                                    <td>S.No.</td>
+                                    <td>Corporate</td>
+                                    <td>Program Joined</td>
+                                    <td>Challenge Joined</td>
+                                    <td>Total Action</td>
+                                    <td>Total Display Task</td>
+                                    <td>Total Done Task</td>
+                                    <td>No Of Readings</td>
+                                    <td>No of Queries</td>
+                                    <td>Total PEP</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of Report2;index as i;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{data.CorporateInfo_Name}}</td>
+                                    <td>{{data.TotalProgramJoined}}</td>
+                                    <td>{{data.TotalChallengeJoined}}</td>
+                                    <td>{{data.TotalTaskDone}}</td>
+                                    <td>{{data.TotalProgramTaskDone}}</td>
+                                    <td>{{data.NoOfReading}}</td>
+                                    <td>{{data.NoOfQuery}}</td>
+                                    <td>{{data.TotalPEPs}}</td>
+                                    <td>{{data.TotalDisplayTask}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block">
+    <div class="panel panel-default alt">
+        <div class="panel-heading">
+            <h2 (click)="Toggletable($event)"><i class="fa fa-minus"></i>Report 3</h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive reporttable">
+                        <table class="table row-space">
+                            <thead>
+                                <tr>
+                                    <td>S.No.</td>
+                                    <td>Corporate</td>
+                                    <td>Android</td>
+                                    <td>Windows</td>
+                                    <td>IPhone</td>
+                                    <td>Total</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of Report3;index as i;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{data.CorporateInfo_Name}}</td>
+                                    <td>{{data.AndroidCount}}</td>
+                                    <td>{{data.WindowsCount}}</td>
+                                    <td>{{data.IPhonecount}}</td>
+                                    <td>{{data.Totalcount}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

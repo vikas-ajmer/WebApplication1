@@ -1,0 +1,85 @@
+<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-users"></i>
+                <h1><span>Users</span></h1>
+                <p> <a href="javascript:void(0)" class="link">Home</a> > Users</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right selectcorporate">
+            <a href="javascript:void(0)" (click)="showFilterBox()" class="btn btn-info custombutton slide-toggle"><i class="fa fa-search"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="content-block" *ngIf="IsShowFilterBox">
+    <div class="row">
+
+        <div class="col-md-4">
+            <label><span class="filtertextd"><i class="fa fa-search"></i> Corporate, EmpID:</span></label>
+            <div class="input-group">
+                <!--(ngModelChange)="onSearchChanged($event)"-->
+                <input class="form-control" id="searchInput" #searchInput type="search" [(ngModel)]="searchInputCorpEmpID" placeholder="Search Corporate, Emp-ID" style="border:solid 1px rgba(103,117,124,.3) !important">
+                <div class="input-group-btn">
+                    <button (click)="onSearchChanged()" class="btn btn-info"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label><span class="filtertextd"><i class="fa fa-search"></i> Name/Email:</span></label>
+            <div class="input-group">
+                <!--(ngModelChange)="onSearchByUserName($event)"-->
+                <input class="form-control" type="search" [(ngModel)]="searchInputEmailName" placeholder="Search by name/email..." style="border:solid 1px rgba(103,117,124,.3) !important">
+                <div class="input-group-btn">
+                    <button (click)="onSearchByUserName()" class="btn btn-info"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label><span class="filtertextd"><i class="fa fa-search"></i> Show:</span></label>
+            <select name="example_length" id="recoredSelect" #recoredSelect ngModel="10" (ngModelChange)="onRecoredSelect($event)" aria-controls="example" class="form-control" style="border:solid 1px rgba(103,117,124,.3) !important">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="content-block usersrow">
+    <div class="row">
+        <div class="table-responsive homepage leaderboard userslist">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="5%"><i class="fa fa-list-ol"></i> S.No.</th>
+                        <th style="text-align: left;"><i class="fa fa-address-book-o"></i> EMP-ID</th>
+                        <th width="30%" style="text-align:left"><i class="fa fa-user-circle-o"></i> Name
+                        <th><i class="fa fa-building "></i> Corporate</th>
+                        <th><i class="fa fa-id-card"></i> Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of usersList;let i = index">
+                        <td></td>
+                        <td style="text-align: left;">{{item.EmpID}}</td>
+                        <td>
+                            <div class="userimg"><span class="avatar"><img class="img-responsive img-rounded" src="../../assets/img/admin-img.png"></span></div>
+                            <div class="username"><h4>{{item.FirstName+ ' '+  item.LastName}}</h4></div>
+                        </td>
+                        <td>{{item.CorporateName}}</td>
+                        <td><a [routerLink]="['/userprofile/view',item.MemberID]" class="btn btn-default"><i class="fa fa-eye"></i> View </a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-right">
+            <div>
+                <pagination [maxSize]="5" [boundaryLinks]="true" [itemsPerPage]="recoredPerPage" [totalItems]="totalRecord" [(ngModel)]="currentPage" class="pagination-lg"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="First" lastText="Last" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

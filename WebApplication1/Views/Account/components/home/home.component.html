@@ -1,0 +1,197 @@
+
+<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <img src="../../assets/img/user-smile.svg" alt="Welcome User">
+                <h1><span>Hello {{authService.currentUser.Name}},</span> Welcome to {{authService.currentUser.CorporateName}}!</h1>
+                <p>Today’s Summary - <a href="javascript:;">50</a> of your users have logged in, out of which <a href="javascript:;">15</a> logged in for the first time!</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right selectcorporate">
+            <label>Select Corporate</label>
+            
+            <div class="btn-group" dropdown>
+                <input [(ngModel)]="corporateDropdown"
+                       [typeahead]="corporateInfo"
+                       typeaheadOptionField="CorporateInfo_Name"
+                       [typeaheadMinLength]="0"
+                       placeholder="Select a corporate"
+                       [typeaheadOptionsLimit]="7"
+                       (typeaheadOnSelect)="onSelectCorporateDropdown($event)"
+                       (typeaheadNoResults)="onCorporateDropdownNoResults($event)"
+                       class="form-control searhinputicon"
+                       id="corporateSearchInput">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-block mainstats">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="dashboard-mini-stats">
+                <div class="title">Users Registered</div>
+                <div class="clearfix">
+                    <div class="stats-alt pull-left" *ngIf="isShowCounter">
+                        <div counto [step]="30" [countTo]="statistics.UserRegistered" [countFrom]="0" [duration]="2" (countoChange)="counto_r = $event">{{counto_r| number:'1.0-0'}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="fa fa-users"></i>
+                    </div>
+                </div>
+                <div class="info">actual for this month</div>
+                <div class="goal">69% of $49,999 reached so far</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-mini-stats purple">
+                <div class="title">Unique Logins</div>
+                <div class="clearfix">
+                    <div class="stats-alt pull-left" *ngIf="isShowCounter">
+                        <div counto [step]="30" [countTo]="statistics.UniqueLogins" [countFrom]="0" [duration]="2" (countoChange)="counto_l = $event">{{counto_l| number:'1.0-0'}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="fa fa-sign-in"></i>
+                    </div>
+                </div>
+                <div class="info">actual for this month</div>
+                <div class="goal">69% of $49,999 reached so far</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-mini-stats">
+                <div class="title">Profiles Completed</div>
+                <div class="clearfix">
+                    <div class="stats-alt pull-left" *ngIf="isShowCounter">
+                        <div counto [step]="30" [countTo]="statistics.ProfileCompleted" [countFrom]="0" [duration]="2" (countoChange)="counto_p = $event">{{counto_p| number:'1.0-0'}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="fa fa-address-card"></i>
+                    </div>
+                </div>
+                <div class="info">actual for this month</div>
+                <div class="goal">69% of $49,999 reached so far</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-mini-stats purple">
+                <div class="title">HRAs Completed</div>
+                <div class="clearfix">
+                    <div class="stats-alt pull-left" *ngIf="isShowCounter">
+                        <div counto [step]="30" [countTo]="statistics.HRACompleted" [countFrom]="0" [duration]="2" (countoChange)="counto_h = $event">{{counto_h| number:'1.0-0'}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="fa fa-user-secret"></i>
+                    </div>
+                </div>
+                <div class="info">actual for this month</div>
+                <div class="goal">69% of $49,999 reached so far</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-block quickaccessrow">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="quickaccess">
+                <div>
+                    <img src="../../assets/img/quickaccess.svg" alt="Quick Access">
+                </div>
+                <div class="title">
+                    <span>Quick Access</span> <i class="fa fa-long-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-3">
+                <div class="quickaccessbutton text-center">
+                    <a [routerLink]="['/corporate/add']" class="draw">
+                        <div class="action-btn">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <div class="title">Create A <br>New Corporate</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="quickaccessbutton greengry text-center">
+                    <a href="users.html">
+                        <div class="action-btn">
+                            <i class="fa fa-plus"></i>
+                        </div>
+                        <div class="title">Add <br>New Users</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="quickaccessbutton text-center">
+                    <a [routerLink]="['/challenge/add']">
+                        <div class="action-btn">
+                            <i class="fa fa-trophy"></i>
+                        </div>
+                        <div class="title">Create A  <br>Challenge</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="quickaccessbutton greengry text-center">
+                    <a href="#">
+                        <div class="action-btn">
+                            <i class="fa fa-eye"></i>
+                        </div>
+                        <div class="title">View Corporate <br>Calendar</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-block usersrow">
+    <div class="row">
+        <div class="table-heading">
+            <div class="col-md-9">
+                <h2><span>Users</span></h2>
+                <p><a href="javascript:void(0)">{{onlineUsers.OnlineUser_Total}}</a> user(s) are online right now.</p>
+            </div>
+            <div class="col-md-3 text-right">
+                <a href="javascript:void(0)" class="btn btn-lg btn-inverse-alt viewsmall"><i class="fa fa-list-ul"></i> View All</a>
+            </div>
+        </div>
+        <div class="table-responsive homepage">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="25%"><i class="fa fa-building"></i>Corporate</th>
+                        <th width="15%"><i class="fa fa-globe"></i> Website</th>
+                        <th width="15%"><i class="fa fa-android"></i> Android</th>
+                        <th width="15%"><i class="fa fa-apple"></i> IOS</th>
+                        <th width="10%"><i class="fa fa-plus-circle"></i> Total</th>
+                        <th width="5%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  *ngFor="let item of corporateUsers">
+                        <td align="left">
+                            <div class="userimg">
+                                <avatar size="40" name={{item.CorporateInfo_Name}} [displayType]="'circle'"></avatar>
+                            </div>
+                            <div class="username">
+                                <h4>{{item.CorporateInfo_Name}} <span>Sales Manager</span></h4>
+                            </div>
+                        </td>
+                        <td>{{item.OnlineUserWeb}}</td>
+                        <td>{{item.OnlineUserAnd}}</td>
+                        <td>{{item.OnlineUserIOS}}</td>
+                        <td>
+                            <div class="total">{{item.OnlineUserTotal}}</div>
+                        </td>
+                        <td>
+                            <span class="status" data-toggle="tooltip" data-placement="right" title="Online"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

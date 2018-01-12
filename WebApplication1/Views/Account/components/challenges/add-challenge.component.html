@@ -1,0 +1,132 @@
+﻿<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-trophy"></i>
+                <h1><span>{{headerName}}</span></h1>
+                <p> <a [routerLink]="['/']" class="link">Home</a> > <a [routerLink]="['/challenges']" class="link">Challenges</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right selectcorporate">
+            <a [routerLink]="['/challenges']" class="btn btn-default custombutton"><i class="fa fa-long-arrow-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+
+<div class="content-block customformstyle">
+    <div class="row">
+        <div class="panel panel-default alt">
+            <div class="panel-heading">
+                <ul class="wizardstyle">
+                    <li [ngClass]="{'active':step=='choose','complete':step!='choose'}">
+                        <span *ngIf="step=='choose'">1</span><span *ngIf="step!='choose'"><i class="fa fa-check"></i></span> <i class="fa fa-flash"></i> Select Challenge Type
+                    </li>
+                    <li [ngClass]="{'active':IsDetailActive,'complete':IsDetailComplete}">
+                        <span *ngIf="!IsDetailComplete">2</span><span *ngIf="IsDetailComplete"><i class="fa fa-check"></i></span><i class="fa fa-list-alt"></i> Challenge Details
+                    </li>
+                    <li [ngClass]="{'active':IsEnrollActive,'complete':IsEnrollComplete}">
+                        <span *ngIf="!IsEnrollComplete">3</span><span *ngIf="IsEnrollComplete"><i class="fa fa-check"></i></span><i class="fa fa-send"></i> Enroll Users
+                    </li>
+                    <!--<li [ngClass]="{'active':IsSendActive}">
+                        <span>4</span> <i class="fa fa-send"></i> Send Invitation
+                    </li>-->
+                    
+                </ul>
+            </div>
+            <div class="panel-body" *ngIf="!IsShowComponent">
+                <div class="form-horizontal row-border">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="stepchallenge">
+                                    <div class="choosechallenge">
+                                        <span class="radio inline customradio fontweightb">
+                                            <input type="radio" class="tectonic" id="stepchallenge" name="challengetype" [value]="4" [(ngModel)]="challengeType">
+                                            <label for="stepchallenge"></label>
+                                        </span>
+                                        <div class="iconimage">
+                                            <img src="../../assets/img/stepchallenge.svg">
+                                        </div>
+                                        <h2>Step Challenge</h2>
+                                        <p>Participants use their step trackers to take as many steps as possible daily and ones with highest step count by the end of the challenge win.</p>
+
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="adventurechallenge">
+                                    <div class="choosechallenge">
+                                        <span class="radio inline customradio fontweightb">
+                                            <input type="radio" class="tectonic" id="adventurechallenge" name="challengetype" [value]="3" [(ngModel)]="challengeType">
+                                            <label for="adventurechallenge"></label>
+                                        </span>
+                                        <div class="iconimage">
+                                            <img src="../../assets/img/adventurechallenge.svg">
+                                        </div>
+                                        <h2>Adventure</h2>
+                                        <p>Teams use their steps from their daily life to virtually explore various destinations across the world. A completely virtual fitness experience.</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="teamchallenge">
+                                    <div class="choosechallenge">
+                                        <span class="radio inline customradio fontweightb">
+                                            <input type="radio" class="tectonic" id="teamchallenge" name="challengetype" [value]="2" [(ngModel)]="challengeType">
+                                            <label for="teamchallenge"></label>
+                                        </span>
+                                        <div class="iconimage">
+                                            <img src="../../assets/img/teamchallenge.svg">
+                                        </div>
+                                        <h2>Team Challenge</h2>
+                                        <p>Participants form teams & compete with other teams to finish a different healthy action everyday. Each team competes with the other team to have the highest compliance.</p>
+
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="individualchallenge">
+                                    <div class="choosechallenge">
+                                        <span class="radio inline customradio fontweightb">
+                                            <input type="radio" class="tectonic" id="individualchallenge" name="challengetype" [value]="1" [(ngModel)]="challengeType">
+                                            <label for="individualchallenge"></label>
+                                        </span>
+                                        <div class="iconimage">
+                                            <img src="../../assets/img/individualchallenge.svg">
+                                        </div>
+                                        <h2>Individual Challenge</h2>
+                                        <p>Challengers compete against each other to finish the desired healthy action everyday over the course of the challenge.</p>
+
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer" style="background:none">
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-4">
+                                <button class="btn-success btn btn-lg customb savenext" (click)="GoToChallengeComponent()"><i class="fa fa-check"></i> Save & Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <individual-challenge [User]="User" [ChallengeCounting]="ChallengeCounting" [corporateList]="corporateList" [ChallengeId]="ChallengeId" *ngIf="step=='individual-detail'&&IsShowComponent"></individual-challenge>
+            <individual-enroll-member [User]="User" *ngIf="step=='individual-enroll' && IsShowComponent"></individual-enroll-member>
+            <individual-challenge-sendinvitation [User]="User" *ngIf="step=='individual-sendinvitation' && IsShowComponent"></individual-challenge-sendinvitation>
+
+            <adventure-challenge [UserId]="UserId" *ngIf="step=='adventure-detail' && IsShowComponent"></adventure-challenge>
+            <!--<adventure-create [UserId]="UserId"  *ngIf="step=='adventure-create' && IsShowComponent"></adventure-create>
+            <adventure-setdetails *ngIf="step=='adventure-setdetails' && IsShowComponent"></adventure-setdetails>-->
+
+            <team-challenge-detail [User]="User" [corporateList]="corporateList" [ChallengeId]="ChallengeId" *ngIf="step=='team-detail' && IsShowComponent"></team-challenge-detail>
+            <team-challenge-enroll [User]="User" *ngIf="step=='team-enroll' && IsShowComponent"></team-challenge-enroll>
+            <team-challenge-sendinvitation [User]="User" *ngIf="step=='team-send-invitation' && IsShowComponent"></team-challenge-sendinvitation>
+            <adventure-assigncorporate *ngIf="step=='adventure-assigncorporate' && IsShowComponent"></adventure-assigncorporate>
+
+            <step-challenge-previouslist *ngIf="step=='step-challenge-previouslist' && IsShowComponent"></step-challenge-previouslist>
+            
+        </div>
+    </div>
+</div>

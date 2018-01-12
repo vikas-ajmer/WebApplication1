@@ -1,0 +1,28 @@
+﻿body {
+    display: table;
+    margin: 0 auto
+}
+
+header {
+    padding: 7px 0 5px;
+}
+
+#topnav img.img-dark {
+    height: 44px;
+    display: inline-block !important;
+    text-align: center !important;
+}
+
+.container {
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0 auto
+}
+
+h2 {
+    font-weight: 500;
+    color: #546269;
+    font-size: 18px;
+    font-family: 'Raleway', sans-serif !important;
+    margin-bottom: 25px
+}

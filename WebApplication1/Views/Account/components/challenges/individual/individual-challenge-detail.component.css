@@ -1,0 +1,10 @@
+﻿.form-group .help-block.error {
+    color: #e02727 !important;
+}
+.selected-list .c-btn {
+    box-shadow: none !important;
+}
+.c-token {
+    margin: 1px;
+    font-size: 13px;
+}

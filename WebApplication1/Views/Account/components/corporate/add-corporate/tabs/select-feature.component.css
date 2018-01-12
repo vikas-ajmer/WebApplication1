@@ -1,0 +1,19 @@
+﻿.selectBoxIt.open .dropdown-menu {
+    max-height: 250px;
+    overflow: hidden;
+    overflow-y: auto;
+    transform: scale(1, 1) !important;
+    opacity: 1 !important;
+}
+.guid-programme li i {
+display:inline-block;
+margin-left:5px;
+}
+.guid-programme li a {
+    margin: 0px;
+    display: inline-block !important;
+}
+.multiselect-programme .c-token {
+    margin: 1px;
+    font-size: 13px;
+}

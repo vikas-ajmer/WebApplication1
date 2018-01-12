@@ -1,0 +1,96 @@
+﻿
+<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-users"></i>
+                <h1><span>Registered Users</span></h1>
+                <p> <a href="javascript:void(0)" class="link">Home </a> > Users List</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right selectcorporate">
+            <a [routerLink]="['/registerusers/add']" class="btn btn-success custombutton"><i class="fa fa-plus"></i> Create a New User</a>
+            <!--<a href="javascript:void(0)" (click)="showFilterBox()" class="btn btn-info custombutton slide-toggle"><i class="fa fa-search"></i></a>-->
+        </div>
+    </div>
+</div>
+
+<div class="content-block usersrow">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <label>By Role</label>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                    {{selectRole}} <i class="pl-xs ion-ios-arrow-down"></i>
+                </button>
+                <ul role="menu" class="dropdown-menu">
+                    <li>
+                        <a href="javascript:;" (click)="FilterUser('All')">All</a>
+                    </li>
+                    <li *ngFor="let role of roleList">
+                        <a href="javascript:;" (click)="FilterUser(role.Role)">{{role.Role}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive homepage leaderboard userslist">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="5%"><i class="fa fa-list-ol"></i> S.No.</th>
+                        <th style="text-align: left; padding-left: 10px;"><i class="fa fa-user-circle-o"></i> Name</th>
+                        <th style="text-align: left; padding-left: 10px;"><i class="fa fa-envelope"></i> Email</th>
+                        <th style="text-align: left; padding-left: 10px;"><i class="fa fa-unlock-alt"></i> Role</th>
+                        <th><i class="fa fa-building "></i> Corporate</th>
+                        <th><i class="fa fa-cog"></i> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of filteredList | searchfilter: 'Role' : filterValue;let i = index">
+                        <td></td>
+                        <td style="text-align: left; padding-left: 10px;">
+                            <!--<div class="userimg"><span class="avatar"><img class="img-responsive img-rounded" src="../../assets/img/admin-img.png"></span></div>-->
+                            <div class="username"><h4>{{item.MemberName}}</h4></div>
+                        </td>
+                        <td style="text-align: left; padding-left: 10px;">{{item.Email}}</td>
+                        <td style="text-align: left;">{{item.Role}}</td>
+                        <td>
+                            <div *ngIf="item.RoleID != 1">
+                                <div class="btn-group">
+                                    <button *ngIf="item.Corporate.length > 1" data-toggle="dropdown" class="btn btn-default dropdown-toggle noeffect" type="button"><i class="fa fa-ellipsis-v"></i></button>
+                                    <ul *ngIf="item.Corporate.length > 1" role="menu" class="dropdown-menu allcorporatelist" style="left:auto;right: 0 ">
+                                        <li>
+                                            <label *ngFor="let corporate of item.Corporate">
+                                                {{corporate.CorporateInfo_Name}}, &nbsp;
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <span *ngIf="item.Corporate.length < 2">
+                                        <label *ngFor="let corporate of item.Corporate">
+                                            {{corporate.CorporateInfo_Name}}
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                            <label *ngIf="item.RoleID == 1">
+                                All Corporates
+                            </label>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" [ngClass]="{'hide': item.RoleID == 1 || item.RoleID == 3}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i> </a>
+                            <a href="javascript:void(0)" [ngClass]="{'hide': item.RoleID == 1}" data-toggle="tooltip" data-placement="top" title="Deactivate" class="btn btn-default danger"><i [hidden]="item.RoleID == 1" class="fa fa-minus-circle"></i> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--<div class="text-right">
+            <div>
+                <pagination [maxSize]="5" [boundaryLinks]="true" [itemsPerPage]="recoredPerPage" [totalItems]="totalRecord" [(ngModel)]="currentPage" class="pagination-lg"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="First" lastText="Last" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+            </div>
+        </div>-->
+    </div>
+</div>

@@ -1,0 +1,94 @@
+﻿<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-trophy"></i>
+                <h1><span>Adventure Challenge</span></h1>
+                <p> <a [routerLink]="['/']" class="link">Home</a> > <a [routerLink]="['/challenges']" class="link">Challenges</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right selectcorporate">
+            <a [routerLink]="['/challenges']" class="btn btn-default custombutton"><i class="fa fa-long-arrow-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+
+<div class="content-block customformstyle">
+    <div class="row">
+        <div class="panel panel-default alt">
+            <div class="panel-heading">
+                <ul class="wizardstyle">
+                    <li class="complete"><span><i class="fa fa-check"></i></span> <i class="fa fa-flash"></i> Select Challenge Type
+                    </li>
+                    <li class="active">
+                        <span>2</span> <span *ngIf="IsDetailComplete"><i class="fa fa-check"></i></span><i class="fa fa-list-alt"></i> Challenge Details
+                    </li>
+                    <li>
+                        <span>3</span><span *ngIf="IsEnrollComplete"><i class="fa fa-check"></i></span><i class="fa fa-send"></i> Enroll Users
+                    </li>
+                </ul>
+            </div>
+
+            <div class="panel-body" *ngIf="pageStep=='adventure-create'">
+                <form class="form-horizontal row-border" name="frmAdventureChallenge" #f="ngForm" novalidate
+                      (ngSubmit)="f.form.valid ? SaveAdventureChallenge() :false">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Adventure Name :</label>
+                        <div class="col-sm-8  col-sm-offset-1">
+                            <input type="text" class="form-control" placeholder="Enter Name" name="adventureName" [(ngModel)]="adventureChallenge.AdventureName" #adventureName="ngModel" required>
+                            <span class="help-block error" *ngIf="f.submitted && !adventureName.valid">
+                                Adventure Name is required
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Challenge Description :</label>
+                        <div class="col-sm-8 col-sm-offset-1">
+                            <textarea class="form-control autosize" name="adventureDescription" [(ngModel)]="adventureChallenge.AdventureDescription" #adventureDescription="ngModel" required></textarea>
+                            <span class="help-block error" *ngIf="f.submitted &&!adventureDescription.valid">
+                                Challenge Description is required
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Adventure Image :</label>
+                        <div class="col-sm-8 col-sm-offset-1">
+                            <div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%">
+                                <div class="input-group">
+                                    <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="selectedFileName">
+                                        {{selectedFileName}}
+                                    </div>
+                                    <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="!selectedFileName">
+                                        &nbsp;
+                                    </div>
+                                    <span class="input-group-btn">
+                                        <ng4-files-click (filesSelect)="filesSelect($event)">
+                                            <span class="btn btn-default btn-file">
+                                                <span class="fileinput-new">Select file</span>
+                                            </span>
+                                        </ng4-files-click>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer" style="background:none">
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn-success btn btn-lg customb"><i class="fa fa-check"></i> Save & Next</button>
+                                <!--<a href="createchallenge-adventure-configure-map.html" class="btn-success btn btn-lg customb"><i class="fa fa-check"></i> Save & Next</a>-->
+                                <a [routerLink]="['/challenges']" class="btn-default btn btn-lg customb"><i class="fa fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <adventure-setdetails *ngIf="pageStep=='adventure-setdetails'"></adventure-setdetails>
+        </div>
+    </div>
+</div>
+
+
+

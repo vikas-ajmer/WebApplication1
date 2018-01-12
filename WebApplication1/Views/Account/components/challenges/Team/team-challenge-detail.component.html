@@ -1,0 +1,197 @@
+﻿<div class="panel-body">
+    <form class="form-horizontal row-border" name="individualChallenge" #f="ngForm" novalidate
+          (ngSubmit)="f.form.valid&&teamChallenge.chellangeCategory>0&&teamChallenge.corporateinfoid>0? SaveTeamChallenge() :false">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Name :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Name" name="chellangeName" [(ngModel)]="teamChallenge.chellangeName" #chellangeName="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!chellangeName.valid">
+                    Challenge Name is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Description :</label>
+            <div class="col-sm-8 col-sm-offset-1">
+                <textarea class="form-control autosize" name="chellangeDescription" [(ngModel)]="teamChallenge.chellangeDescription" #chellangeDescription="ngModel" required></textarea>
+                <span class="help-block error" *ngIf="f.submitted &&!chellangeDescription.valid">
+                    Challenge Description is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Category :</label>
+            <div class="col-sm-3 col-sm-offset-1">
+                <select class="form-control" name="chellangeCategory" [(ngModel)]="teamChallenge.chellangeCategory" #chellangeCategory="ngModel" required>
+                    <option value="0">Select Category</option>
+                    <option *ngFor="let cat of Category" value="{{cat.ID}}" >{{cat.Name}}</option>
+                </select>
+                <span class="help-block error" *ngIf="f.submitted &&teamChallenge.chellangeCategory<=0">
+                    Challenge Category is required
+                </span>
+            </div>
+            <label class="col-sm-2 control-label text-left" style="text-align:right">Choose Corporate :</label>
+            <div class="col-sm-3 col-sm-offset-0">
+                <select class="form-control" name="corporateinfoid" [(ngModel)]="teamChallenge.corporateinfoid" #corporateinfoid="ngModel" [disabled]="ChallengeId!=0" required>
+                    <option value="0">Select Corporate</option>
+                    <option *ngFor="let corporate of corporateList" value="{{corporate.id}}">{{corporate.itemName}}</option>
+                </select>
+                <span class="help-block error" *ngIf="f.submitted &&teamChallenge.corporateinfoid<=0">
+                    Corporate is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Rules :</label>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Rules" name="chellangeRules" [(ngModel)]="teamChallenge.chellangeRules" #chellangeRules="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!chellangeRules.valid">
+                    Challenge Rules is required
+                </span>
+            </div>
+            <label class="col-sm-2 control-label text-left" style="text-align:right">Threshold :</label>
+            <div class="col-sm-3 col-sm-offset-0">
+                <input type="number" class="form-control" placeholder="Enter Threshold" OnlyNumber="true" name="chellangeThreshold" [(ngModel)]="teamChallenge.chellangeThreshold" #chellangeThreshold="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!chellangeThreshold.valid">
+                    Challenge Threshold is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Image :</label>
+            <div class="col-sm-8 col-sm-offset-1" *ngIf="!(ImgUrl.length)||isLogoUpdate">
+                <div class="fileinput fileinput-new" style="width: 100%">
+                    <div class="input-group">
+                        <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="selectedFileName">
+                            {{selectedFileName}}
+                        </div>
+                        <div class="form-control uneditable-input" style="padding:6px 8px!important;" *ngIf="!selectedFileName">
+                            &nbsp;
+                        </div>
+                        <span class="input-group-btn">
+                            <ng4-files-click (filesSelect)="filesSelect($event)">
+                                <span class="btn btn-default btn-file">
+                                    <span class="fileinput-new">Select file</span>
+                                </span>
+                            </ng4-files-click>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-sm-offset-1" *ngIf="ImgUrl.length&&!isLogoUpdate">
+                <div class="col-sm-6">
+                    <div class="logospace">
+                        <img class="img-dark" [src]="ImgUrl" alt="Tectonic">
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <label class="btn btn-primary btn-file" (click)="isLogoUpdate=!isLogoUpdate"><i class="fa fa-cloud-upload"></i> <span>Upload New Image…</span></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-sm-offset-0">
+                <h2 style="font-size:18px;font-weight:500;margin:10px 0">Create Questions</h2>
+            </div>
+            <div class="col-sm-12 col-sm-offset-0">
+                <div class="addedquestions" *ngFor="let que of AllQuestion;index as i">
+                    <div class="questiontitle">
+                        <img class="img-responsive question" src="../../../assets/img/question.svg">
+                        <span>Question {{i+1}}</span> {{que.title}}
+                        <!--<button type="button" class="btn btn-xs btn-toggle active" data-toggle="button" aria-pressed="true" autocomplete="off">
+                            <div class="handle"></div>
+                        </button>-->
+                    </div>
+
+                    <div class="questiondetails">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="startdaterow">
+                                    <div class="startdate"><span>{{que.start}}</span></div>
+                                    <span>Start From (Day)</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label" style="text-align: left;">Desired :</label>
+                                        <div class="col-sm-10  col-sm-offset-0">
+                                            <input type="text" class="form-control" [ngClass]="{'hightlight':QIAFEdit.indexOf(i)!=-1}" name="desired{{i}}" [(ngModel)]="que.desired" [disabled]="QIAFEdit.indexOf(i)==-1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label" style="text-align: left;">Alternate :</label>
+                                        <div class="col-sm-10  col-sm-offset-0">
+                                            <input type="text" class="form-control" [ngClass]="{'hightlight':QIAFEdit.indexOf(i)!=-1}" name="alternate{{i}}" [(ngModel)]="que.alternate" [disabled]="QIAFEdit.indexOf(i)==-1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label" style="text-align: left;">Repeat Till (Day) :</label>
+                                        <div class="col-sm-10  col-sm-offset-0">
+                                            <input type="number" class="form-control" [ngClass]="{'hightlight':QIAFEdit.indexOf(i)!=-1}" name="end{{i}}" [(ngModel)]="que.end" [disabled]="QIAFEdit.indexOf(i)==-1||AllQuestion.length!=i+1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="question-actions">
+                                    <a href="javascript:void(0)" class="btn btn-default custombutton editquestion" [ngClass]="{'action':QIAFEdit.indexOf(i)>-1}" (click)="EditQuestion(i,QIAFEdit.indexOf(i)==-1)"><i class="fa" [ngClass]="{'fa-pencil':QIAFEdit.indexOf(i)==-1,'fa-check':QIAFEdit.indexOf(i)!=-1}"></i> {{QIAFEdit.indexOf(i)==-1?'Edit':'Save'}}</a>
+                                    <a href="javascript:void(0)" class="btn btn-default custombutton deletequestion" (click)="DeleteQuestion(i)" *ngIf="AllQuestion.length==i+1"><i class="fa fa-trash"></i> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body addquestionrow">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Question Title :</label>
+                            <div class="col-sm-8  col-sm-offset-1">
+                                <input type="text" class="form-control" placeholder="Enter Question" name="Qtitle" [(ngModel)]="question.title">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Desired :</label>
+                            <div class="col-sm-3 col-sm-offset-1">
+                                <input type="text" class="form-control" placeholder="Enter Desired Answer" name="Qdesired" [(ngModel)]="question.desired">
+                            </div>
+                            <label class="col-sm-2 control-label text-left" style="text-align:right">Alternate :</label>
+                            <div class="col-sm-3 col-sm-offset-0">
+                                <input type="text" class="form-control" placeholder="Enter Alternate Answer" name="Qalternate" [(ngModel)]="question.alternate">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Question Start From <br>(Day) :</label>
+                            <div class="col-sm-3 col-sm-offset-1">
+                                <input type="number" class="form-control" OnlyNumber="true" name="Qstart" [(ngModel)]="question.start" disabled="disabled">
+                            </div>
+                            <label class="col-sm-2 control-label text-left" style="text-align:right">Repeat Till (Day) :</label>
+                            <div class="col-sm-3 col-sm-offset-0">
+                                <input type="number" class="form-control" OnlyNumber="true" name="Qend" [(ngModel)]="question.end">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 text-center">
+                        <button type="button" class="btn-success btn btn-lg customb addedquestionbtn" (click)="AddNewQuestion()"><i class="fa fa-plus"></i> <br>Add Question</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer" style="background:none">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-3">
+                    <button type="submit" class="btn-success btn btn-lg customb"><i class="fa fa-check"></i> Save & Next</button>
+                    <a href="createchallenge.html" class="btn-default btn btn-lg customb"><i class="fa fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

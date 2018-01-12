@@ -1,0 +1,86 @@
+﻿<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-trophy"></i>
+                <h1><span>{{headerName}}</span></h1>
+                <p> <a [routerLink]="['/']" class="link">Home</a> > <a [routerLink]="['/challenges']" class="link">Challenges</a></p>
+            </div>
+        </div>
+        <!--<div class="col-md-4 text-right selectcorporate">
+            <a [routerLink]="['/challenges']" class="btn btn-default custombutton"><i class="fa fa-long-arrow-left"></i> Back</a>
+        </div>-->
+    </div>
+</div>
+
+<div class="content-block customformstyle">
+    <div class="row">
+        <div class="panel panel-default alt">
+            <div class="panel-heading">
+                <ul class="wizardstyle">
+                    <li class="complete">
+                        <span><i class="fa fa-check"></i></span> <i class="fa fa-flash"></i> Select Challenge Type
+                    </li>
+                    <li>
+                        <span>2</span>
+                        <!--<span><i class="fa fa-check"></i></span>--><i class="fa fa-list-alt"></i> Challenge Details
+                    </li>
+                    <li>
+                        <span>3</span>
+                        <!--<span><i class="fa fa-check"></i></span>--><i class="fa fa-send"></i> Enroll Users
+                    </li>
+                </ul>
+            </div>
+
+            <div class="panel-body" *ngIf="step=='step-challenge-previouslist'">
+                <!--<form class="form-horizontal row-border">-->
+                    <div class="form-group" style="background:#fff;padding-top:16px!important;border-bottom:2px solid #edeff0">
+                        <div class="col-sm-12 registered-label">
+                            <div style="padding-top:6px;display: inline-block;">Select from previously created Step Challenges</div>
+                            <button (click)="GoToCreateChallenge('createnew',0)" class="btn btn-success custombutton pull-right" style="margin-top: 0"><i class="fa fa-plus"></i> Create New</button>
+                            <!--<a href="" (click)="GoToCreateChallenge()" class="btn btn-success custombutton pull-right" style="margin-top: 0"><i class="fa fa-plus"></i> Create New</a>-->
+                        </div>
+                    </div>
+                    <div class="table-responsive ullitable nobgshadow">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="10%" style="padding-left:20px"><i class="fa fa-list-ol"></i> S.No.</th>
+                                    <th width="20%"><i class="fa fa-trophy"></i> Challenge</th>
+                                    <th width="15%"><i class="fa fa-building"></i> Corporate</th>
+                                    <th width="15%"><i class="fa fa-flash"></i> Target Steps</th>
+                                    <th><i class="fa fa-calendar "></i> Duration</th>
+                                    <th width="15%"><i class="fa fa-cog"></i> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody  *ngIf="totalRecored>0">
+                                <tr *ngFor="let step of previousStepChallengeList;index as i;">
+                                    <td>{{((currentPage-1) * 20) + (i + 1)}}</td>
+                                    <td class="colrchn">{{step.challengeName}}</td>
+                                    <td align="left">{{step.corporateName}}</td>
+                                    <td>{{step.targetSteps}}</td>
+                                    <td>{{step.startDate | date: 'dd/MM/yyyy'}} - {{step.endDate | date: 'dd/MM/yyyy'}}</td> <!--January 13, 2017 - February 12, 2017-->
+                                    <td class="text-center" style="text-align: center;">
+                                        <a href="javascript:void(0)" (click)="GoToCreateChallenge('edit',step.stepChallengeId)" class="btn btn-default"><i class="fa fa-check "></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody  *ngIf="totalRecored==0">
+                                <tr>
+                                    <td colspan="6">No Record found!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-right" *ngIf="totalRecored>0">
+                            <pagination [boundaryLinks]="true" [maxSize]="10" [itemsPerPage]="recoredPerPage" [totalItems]="totalRecored" [(ngModel)]="currentPage" class="pagination-lg"
+                                        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+                        </div>
+                    </div>
+                <!--</form>-->
+
+
+            </div>
+            <step-challenge *ngIf="step=='step-challenge-create'"></step-challenge>
+        </div>
+    </div>
+</div>

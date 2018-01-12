@@ -1,0 +1,54 @@
+﻿<div class="panel-body">
+    <form class="form-horizontal row-border" name="individualSendInvitation" #f="ngForm" novalidate
+          (ngSubmit)="f.form.valid? SendEmailToEnrolledMembers() :false">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Challenge Name :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <input type="text" class="form-control" disabled="disabled" value="{{individualChallenge.Name}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Corporate :</label>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input type="text" class="form-control" disabled="disabled" value="{{User.CorporateName}}">
+            </div>
+            <label class="col-sm-2 control-label text-left" style="text-align:right">Total Members :</label>
+            <div class="col-sm-3 col-sm-offset-0 audiencerow">
+                <input type="text" class="form-control" disabled="disabled" value="{{individualChallenge.TotalMember}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Email Subject :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Name" name="mailSubject" [(ngModel)]="MailSubject" #mailSubject="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!mailSubject.valid">
+                    Email Subject is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Email Display Name :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <input type="text" class="form-control" placeholder="Enter Name" name="mailDisplayname" [(ngModel)]="MailDisplayName" #mailDisplayname="ngModel" required>
+                <span class="help-block error" *ngIf="f.submitted &&!mailDisplayname.valid">
+                    Email Display Name is required
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Email Template :</label>
+            <div class="col-sm-8  col-sm-offset-1">
+                <ckeditor name="Template" [(ngModel)]="MailTemplate" [config]="ckconfig">
+                </ckeditor>
+            </div>
+        </div>
+
+        <div class="panel-footer" style="background:none">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-3">
+                    <button type="submit" class="btn-success btn btn-lg customb"><i class="fa fa-check"></i>Send Email</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

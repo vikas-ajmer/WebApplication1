@@ -1,0 +1,118 @@
+﻿<div class="panel-body" style="padding-top: 0">
+    <form class="form-horizontal row-border" name="corporateImportUser" #f="ngForm" novalidate
+          (ngSubmit)="DeleteImportUser()" *ngIf="!isUserImported">
+        <div class="form-group" style="background:#fff;padding-top:16px!important;border-bottom:2px solid #edeff0">
+            <div class="col-sm-6 registered-label"><i class="fa fa-id-card"></i> Total Employees Registered - <span>{{totalEmployeeRegistered}}</span></div>
+            <div class="col-sm-6 registered-label purple"><i class="fa fa-battery-half"></i> Registration Limit - <span>{{registrationLimit}}</span></div>
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group fileuploadcustom">
+                <ng4-files-drop (filesSelect)="filesSelect($event)" [UploadImg]="upfile">
+                </ng4-files-drop>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="file-caption">
+                            <input type="text" class="form-control" value="{{selectedFileName}}" disabled="disabled" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <ng4-files-click (filesSelect)="filesSelect($event)">
+                            <div class="btn btn-primary btn-file"> <span class="">Browse …</span></div>
+                        </ng4-files-click>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer" style="background:none">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-3" *ngIf="IsCorporateEmpDel">
+                    <button type="submit" class="btn-success btn btn-lg customb"><i class="fa fa-check"></i> Delete</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form class="form-horizontal row-border" name="corporateAfterImportUser" #f="ngForm" novalidate
+          *ngIf="isUserImported">
+        <div class="form-group" style="background:#fff;padding-top:16px!important;border-bottom:2px solid #edeff0">
+            <div class="col-sm-6 registered-label"><i class="fa fa-id-card"></i> Total Employees Registered - <span>{{totalEmployeeRegistered}}</span></div>
+            <div class="col-sm-6 registered-label purple"><i class="fa fa-battery-half"></i> Registration Limit - <span>{{registrationLimit}}</span></div>
+        </div>
+        <div class="customalerts" style="margin-top:20px">
+            <div class="col-md-12">
+                <div class="alert alert-dismissable alert-danger" style="background:#fff">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <b>{{removedMember}}</b> users will be deleted from Wipro
+                        </div>
+                        <div class="col-md-5">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive ullitable newstyle" *ngIf="wrongEmail.length">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="4"><i class="fa fa-exclamation-triangle"></i> <span>{{wrongEmail.length}}</span> bad data points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let wremail of wrongEmail;index as i;">
+                        <td align="left"><span class="label label-danger invalid">Invalid Email ID</span>{{wremail.Member_Email}}</td>
+                        <td width="30%"><input class="form-control emailinputicon" placeholder="Enter valid email ID here" type="text" name="email{{i}}" [(ngModel)]="wremail.Member_Email"></td>
+                        <td width="30%" style="text-align: right;"><a href="javascript:;" class="btn btn-default delete" (click)="DeleteWrongEmailUserAgain()"><i class="fa fa-times-circle"></i> Delete </a></td>
+                        <td><a class="trashicon" href="javascript:;" (click)="RemoveWrongEmail(wremail)"><i class="fa fa-trash"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive ullitable newstyle" *ngIf="duplicateEmail.length">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="4"><i class="fa fa-exclamation-triangle"></i> <span>{{duplicateEmail.length}}</span> duplicate email.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let duemail of duplicateEmail">
+                        <td align="right"><span class="label label-danger custombadge">{{duemail.Member_Email}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive ullitable newstyle" *ngIf="notRegistered.length">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="4"><i class="fa fa-users"></i> <span>{{notRegistered.length}}</span> employees not found</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let notreg of notRegistered">
+                        <td align="left" class="weighth">{{notreg.Member_FirstName}} {{notreg.Member_LastName}}</td>
+                        <td align="right"><span class="label label-danger custombadge">{{notreg.Member_Email}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer" style="background:none">
+            <div class="row">
+                <div class="col-sm-6" style="text-align:left">
+                    <div class="table-responsive ullitable newstyle">
+                        <table class="table" style="margin-bottom: 0">
+                            <thead>
+                                <tr style="background:none!important;box-shadow:none!important;">
+                                    <th style="font-size:16px;border:0 "><span>{{removedMember}}</span> users deleted from Wipro</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

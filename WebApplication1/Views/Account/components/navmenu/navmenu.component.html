@@ -1,0 +1,146 @@
+    <div class="navbar-header">
+        <a class="navbar-brand" [routerLink]="['/home']">
+            <img class="img-dark" src="../../assets/logo-TWC.svg" alt="Tectonic">
+        </a>
+    </div>
+    <!-- Trigger -->
+    <span id="trigger-leftbar" class="toolbar-trigger">
+        <a class="btn btn-default hideleftbar" tooltip="Toggle Leftbar" placement="right" (click)="ToggleLeftBar()">
+            <span class="icon"><i [ngClass]="{'ion-android-arrow-forward':isToggle,'ion-android-arrow-back':!isToggle}"></i></span>
+        </a>
+    </span>
+    <div class="collapse navbar-collapse" id="tectonic-topnav-collapsible">
+        <ul class="yamm nav navbar-nav navbar-right">
+            <li class="dropdown dropdown-lg">
+                <a href="#" class="dropdown-toggle" data-toggle='dropdown'>
+                    <span class="icon"><i class="ion-search"></i></span>
+                    <span class="text hidden-sm hidden-lg hidden-md">Notifications</span>
+                </a>
+            </li>
+            <li class="dropdown dropdown-lg" dropdown>
+                <a href="javascript:;" class="dropdown-toggle" dropdownToggle>
+                    <span class="icon"><i class="ion-android-notifications"></i></span>
+                    <span class="text hidden-sm hidden-lg hidden-md">Notifications</span>
+                    <span class="badge badge-deep-purple">2</span>
+                    <!-- <span class="label label-deep-purple hidden-lg hidden-sm hidden-md">text</span> -->
+                </a>
+                <div class="dropdown-menu notifications" *dropdownMenu>
+                    <div class="dropdown-header clearfix">
+                        <span class="pull-left" data-localize="top-nav-notific_two_new_notification">2 new notification(s)</span>
+                        <span class="mark-read pull-right"><i class="ion-android-done-all"></i></span>
+                    </div>
+                    <div class="scroll-pane">
+                        <ul class="media-list scroll-content">
+                            <li class="media new">
+                                <a href="#">
+                                    <div class="media-left">
+                                        <span class="icon success"><i class="ion-checkmark-circled"></i></span>
+                                    </div>
+                                    <div class="media-body">
+                                        <span class="name">Jerrod Miller</span> is now following you.
+                                        <span class="time">2 mins ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="media new">
+                                <a href="#">
+                                    <div class="media-left">
+                                        <span class="icon purple"><i class="ion-android-sync"></i></span>
+                                    </div>
+                                    <div class="media-body">
+                                        <span class="name">Ben Hepworth</span> updated project <span class="link">Marvin</span>
+                                        <span class="time">2 mins ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <span class="category-heading" data-localize="top_nav_notific_older">Older</span>
+                            </li>
+                            <li class="media">
+                                <a href="#">
+                                    <div class="media-left">
+                                        <span class="icon blue"><i class="ion-android-document"></i></span>
+                                    </div>
+                                    <div class="media-body">
+                                        <span class="name">Ken Duren</span> added new files.
+                                        <span class="time">2 mins ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="media">
+                                <a href="#">
+                                    <div class="media-left">
+                                        <span class="icon success"><i class="ion-android-done"></i></span>
+                                    </div>
+                                    <div class="media-body">
+                                        Your changes were saved.
+                                        <span class="time">2 mins ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="media">
+                                <a href="#">
+                                    <div class="media-left">
+                                        <span class="icon info"><i class="ion-android-done"></i></span>
+                                    </div>
+                                    <div class="media-body">
+                                        Your changes were saved.
+                                        <span class="time">2 mins ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="media">
+                                <a href="#">
+                                    <div class="media-left">
+                                        <span class="icon teal"><i class="ion-android-done"></i></span>
+                                    </div>
+                                    <div class="media-body">
+                                        Your changes were saved.
+                                        <span class="time">2 mins ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown-footer clearfix">
+                        <a href="#" class="pull-left" data-localize="top_nav_see_all">See all</a>
+                        <a href="#" class="pull-right" data-localize="top_nav_settings">Settings</a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown username" dropdown>
+                <a class="dropdown-toggle" dropdownToggle  href="javascript:;" aria-expanded="false">
+                    <span class="avatar"><avatar size="30" name={{CurrentUser.Name}} [displayType]="'circle'"></avatar></span>
+                    <span class="icon visible-xs"><i class="ion-android-person"></i></span>
+                    <span class="text hidden-sm">{{CurrentUser.Name}}</span>
+                </a>
+                <ul class="dropdown-menu" *dropdownMenu>
+                    <li>
+                        <div class="userinfo">
+                            <avatar size="80" name={{CurrentUser.Name}} [displayType]="'circle'"></avatar>
+                            <span class="name">{{CurrentUser.Name}}</span>
+                            <span class="email">user.email@truworth.com</span>
+                            <button class="btn btn-orange btn-sm mt-md" data-localize="topnav_upgrade">Upgrade</button>
+                        </div>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="#"><i class="ion-android-create"></i><span data-localize="topnav_edit_profile">Edit Profile</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ion-arrow-down-c"></i><span data-localize="topnav_downloads">Downloads</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ion-ios-settings-strong"></i><span data-localize="topnav_settings">Settings</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ion-help-buoy"></i><span data-localize="topnav_support">Support</span></a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="javascript:;" (click)="logout()"><i class="ion-arrow-right-c"></i><span data-localize="topnav_logout">Logout</span></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>

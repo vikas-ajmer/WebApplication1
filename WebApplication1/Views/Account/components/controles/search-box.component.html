@@ -1,0 +1,14 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <input class="form-control searhinputicon pull-left" id="searchInput" #searchInput type="search" ngModel="" (ngModelChange)="onValueChange($event)" [attr.placeholder]="placeholder" style="border:solid 1px rgba(103,117,124,.3) !important;width:70%">
+        <label class="entries pull-right">
+            Show
+            <select name="example_length" id="recoredSelect" #recoredSelect ngModel="10" (ngModelChange)="onRecoredSelect($event)" aria-controls="example" class="form-control">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select> entries
+        </label>
+    </div>
+</div>

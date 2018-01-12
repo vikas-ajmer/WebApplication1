@@ -1,0 +1,81 @@
+﻿<div class="panel-body">
+    <form action="" class="form-horizontal row-border">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Start Point :</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="us2-address" name="adventurestartlocation" [(ngModel)]="adventureChallenge.AdventureStartLocation" #adventureName="ngModel" autocomplete="off" autocapitalize="off" spellcheck="false" />
+            </div>
+            <label class="col-sm-1 control-label text-left" style="text-align: right;">Latitude :</label>
+            <div class="col-sm-2 col-sm-offset-0">
+                <input type="text" class="form-control" name="startLatitude" [(ngModel)]="adventureChallenge.StartLatitude" #adventureName="ngModel" disabled="">
+            </div>
+            <label class="col-sm-1 control-label text-left" style="text-align: right;">Longitude :</label>
+            <div class="col-sm-2 col-sm-offset-0">
+                <input type="text" class="form-control" name="startLongtitude" [(ngModel)]="adventureChallenge.StartLongtitude" #adventureName="ngModel" disabled="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">End Point :</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="us3-address" name="adventureendlocation" [(ngModel)]="adventureChallenge.AdventureEndLocation" #adventureName="ngModel" autocomplete="off" autocapitalize="off" spellcheck="false" />
+            </div>
+            <label class="col-sm-1 control-label text-left" style="text-align: right;">Latitude :</label>
+            <div class="col-sm-2 col-sm-offset-0">
+                <input type="text" class="form-control" name="endLatitude" [(ngModel)]="adventureChallenge.EndLatitude" #adventureName="ngModel" disabled="">
+            </div>
+            <label class="col-sm-1 control-label text-left" style="text-align: right;">Longitude :</label>
+            <div class="col-sm-2 col-sm-offset-0">
+                <input type="text" class="form-control" name="endLongtitude" [(ngModel)]="adventureChallenge.EndLongtitude" #adventureName="ngModel" disabled="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 text-center">
+                <button type="button" class="btn-success btn customb getroute" (click)="GoRoute()"><i class="fa fa-map"></i> Get Route</button>
+
+                <span class="checkbox inline customcheckbox returnway">
+                    <input type="checkbox" (change)="GoRoute()" [(ngModel)]="adventureChallenge.AdventureReturnWay" class="tectonic" id="returnway" value="1" name="returnway">
+                    <label for="returnway"> <span>Select if you’d like to <br>include return journey </span></label>
+                </span>
+                <div class="dashboard-mini-stats distance">
+                    <div class="title">Distance (kms)</div>
+                    <div class="clearfix">
+                        <div class="stats-alt pull-left">
+                            {{totalDistance}}
+                        </div>
+                        <div class="pull-right">
+                            <i class="fa fa-map-marker"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-mini-stats distance">
+                    <div class="title">Steps</div>
+                    <div class="clearfix">
+                        <div class="stats-alt pull-left">
+                            {{steps}}
+                        </div>
+                        <div class="pull-right">
+                            <i class="fa fa-flash"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-sm-offset-0">
+                <!--<div class="googlemapwrap">-->
+                <div class="" id="gMap" style="min-height:500px;">
+                    <agm-map [latitude]="latitude" [longitude]="longitude">
+                        <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                    </agm-map>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer" style="background:none">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-3">
+                    <a href="javascript:void(0)" class="btn-success btn btn-lg customb" (click)="SaveAdventureChallenge()"><i class="fa fa-check"></i> Save & Next</a>
+                    <a href="createchallenge.html" class="btn-default btn btn-lg customb"><i class="fa fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

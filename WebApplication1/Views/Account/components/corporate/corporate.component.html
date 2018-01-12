@@ -1,0 +1,49 @@
+<div class="content-block headingrow">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="welcome">
+                <i class="fa fa-building"></i>
+                <h1><span>My Corporates</span></h1>
+                <p> <a [routerLink]="['/']" class="link">Home</a> > My Corporates</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right selectcorporate">
+            <a [routerLink]="['/corporate/add']" class="btn btn-success custombutton"><i class="fa fa-plus"></i> Add Corporate</a>
+        </div>
+    </div>
+</div>
+
+<div class="content-block">
+    <div class="row">
+        <search-box (searchChange)="onSearchChanged($event)" (recoredChange)="onRecoredChanged($event)" placeholder="Search Corporate ..."></search-box>
+        <div class="table-responsive ullitable">
+            <table class="table row-space">
+                <thead>
+                    <tr>
+                        <th width="40%" (click)="GetSortOrder('name')"><i class="fa fa-address-book"></i> Name <i class="fa" [ngClass]="{'fa-sort-asc':sortOrder=='ASC','fa-sort-desc':sortOrder=='DESC'}" *ngIf="sortBy=='name'"></i></th>
+                        <th (click)="GetSortOrder('total')"><i class="fa fa-users"></i> Total Users <i class="fa" [ngClass]="{'fa-sort-asc':sortOrder=='ASC','fa-sort-desc':sortOrder=='DESC'}" *ngIf="sortBy=='total'"></i></th>
+                        <th>Package</th>
+                        <th (click)="GetSortOrder('creat')"><i class="fa fa-calendar"></i> Created On <i class="fa" [ngClass]="{'fa-sort-asc':sortOrder=='ASC','fa-sort-desc':sortOrder=='DESC'}" *ngIf="sortBy=='creat'"></i></th>
+                        <th><i class="fa fa-cog"></i> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let corporate of corporateList">
+                        <td align="left">
+                            <div class="userimg"><avatar size="40" name={{corporate.CorporateName}} [displayType]="'circle'"></avatar></div>
+                            <div class="username"><h4>{{corporate.CorporateName}}</h4></div>
+                        </td>
+                        <td>{{corporate.TotalMember}}</td>
+                        <td>{{corporate.CorporatePackage}}</td>
+                        <td><i class="fa fa-clock-o"></i> {{corporate.CreateOn}}</td>
+                        <td><a [routerLink]="['/corporate/view',corporate.CorporateInfoID]" class="btn btn-default"><i class="fa fa-eye"></i> View </a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right">
+                <pagination [boundaryLinks]="true" [maxSize]="5" [itemsPerPage]="recoredPerPage" [totalItems]="totalRecored" [(ngModel)]="currentPage" class="pagination-lg"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="GetCurrentPageRecored($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

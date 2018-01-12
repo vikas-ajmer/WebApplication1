@@ -1,0 +1,40 @@
+<ng2-toasty></ng2-toasty>
+<header *ngIf="authService.isLoggedIn" id="topnav" class="navbar navbar-default navbar-fixed-top clearfix" role="banner">
+    <nav-menu></nav-menu>
+</header>
+<div id="wrapper">
+    <div id="layout-static">
+        <div class="static-leftbar-wrapper leftbar-bunting" *ngIf="authService.isLoggedIn">
+            <div class="static-leftbar">
+                <div class="leftbar">
+                    <div class="widget stay-on-collapse" id="widget-leftbar">
+                        <left-menu></left-menu>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="static-content-wrapper">
+            <div class="static-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <router-outlet></router-outlet>
+                        <div class="content-block" *ngIf="authService.isLoggedIn">
+                            <footer role="contentinfo">
+                                <div class="clearfix">
+                                    <ul class="list-unstyled list-inline pull-left">
+                                        <li>
+                                            <h6 class="m0">&copy; 2017 Truworth Health Technologies Pvt. Ltd.</h6>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    <!-- .container-fluid -->
+                </div>
+                <!-- #page-content -->
+            </div>
+        </div>
+    </div>
+    <ngx-loading [show]="loading"></ngx-loading>
+</div>
